@@ -328,6 +328,8 @@ php artisan nested-many:action DeleteAllPosts --destructive
 
 Nested Actions have a lot in common with Nova Actions, the main difference is that `handle` method should always return a collection of `NestedObject`.
 
+You can generate new `NestedObject` with method `$this->getNewNested()`.
+
 To learn how to define Nova actions, let's look at an example. In this example, we'll define an action that will duplicate a post:
 
 ```php

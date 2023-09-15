@@ -16,6 +16,14 @@ class NestedBasicDeleteAction extends NestedBasicAction
 
     public $destructive = true;
 
+    /**
+     * Perform the action on the given models.
+     *
+     * @param \Laravel\Nova\Fields\ActionFields $actionFields
+     * @param \Lupennat\NestedMany\Models\Nested $selectedUid
+     *
+     * @return \Lupennat\NestedMany\Models\Nested
+     */
     public function handle(ActionFields $fields, Nested $selected): Nested
     {
         return $selected->delete();

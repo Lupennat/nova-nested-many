@@ -16,7 +16,14 @@ class NestedBasicAddAction extends NestedBasicAction
 
     public $standalone = true;
 
-    public function handle(ActionFields $fields, $selected = null): Nested
+    /**
+     * Perform the action on the given models.
+     *
+     * @param \Laravel\Nova\Fields\ActionFields $actionFields
+     *
+     * @return \Lupennat\NestedMany\Models\Nested
+     */
+    public function handle(ActionFields $fields): Nested
     {
         return $this->getNewNested();
     }

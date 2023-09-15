@@ -8,15 +8,6 @@ use Lupennat\NestedMany\Models\Nested;
 
 abstract class NestedBasicAction extends NestedBaseAction
 {
-    /**
-     * Perform the action on the given models.
-     *
-     * @param \Laravel\Nova\Fields\ActionFields $actionFields
-     * @param Nested|null $selectedUid
-     *
-     * @return \Illuminate\Support\Collection<int,\Lupennat\NestedMany\Models\Nested>
-     */
-    abstract public function handle(ActionFields $fields, $selected): Nested;
 
     /**
      * Prepare the action for JSON serialization.
