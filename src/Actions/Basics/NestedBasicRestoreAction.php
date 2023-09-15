@@ -24,6 +24,6 @@ class NestedBasicRestoreAction extends NestedBasicAction
      */
     public function handle(ActionFields $fields, Nested $selected): Nested
     {
-        return $selected->restore();
+        return $selected->restore()->active();
     }
 }

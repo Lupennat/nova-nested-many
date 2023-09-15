@@ -26,6 +26,6 @@ class NestedBasicDeleteAction extends NestedBasicAction
      */
     public function handle(ActionFields $fields, Nested $selected): Nested
     {
-        return $selected->delete();
+        return $selected->delete()->active();
     }
 }

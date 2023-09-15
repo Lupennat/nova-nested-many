@@ -344,6 +344,7 @@
                             this.replaceResource(index, data.resource);
                         } else {
                             this.removeResource(index);
+                            this.activateResource(index <= this.decoratedResources.length -1 ? index : this.decoratedResources.length -1);
                         }
                     } else {
                         this.addResource(data.resource);

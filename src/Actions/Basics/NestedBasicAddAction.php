@@ -25,6 +25,6 @@ class NestedBasicAddAction extends NestedBasicAction
      */
     public function handle(ActionFields $fields): Nested
     {
-        return $this->getNewNested();
+        return $this->getNewNested()->active();
     }
 }
