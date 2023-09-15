@@ -1,0 +1,52 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Support\Collection;
+use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Lupennat\NestedMany\Models\Nested;
+use Lupennat\NestedMany\Actions\NestedAction;
+
+
+class {{ class }} extends NestedAction
+{
+
+    /**
+     * Handle any post-validation processing.
+     *
+     * @param \Illuminate\Contracts\Validation\Validator $validator
+     * @param \Illuminate\Support\Collection<int,\Lupennat\NestedMany\Models\Nested> $resources
+     *
+     * @return void
+     */
+    protected function afterValidation(NovaRequest $request, Collection $resources, $validator)
+    {
+       //
+    }
+
+    /**
+     * Perform the action on the given models.
+     *
+     * @param \Laravel\Nova\Fields\ActionFields $actionFields
+     * @param \Illuminate\Support\Collection<int,\Lupennat\NestedMany\Models\Nested> $children
+     * @param string|null $selectedUid
+     *
+     * @return \Illuminate\Support\Collection<int,\Lupennat\NestedMany\Models\Nested>
+     */
+    public function handle(ActionFields $fields, Collection $children, $selectedUid): Collection
+    {
+        //
+    }
+
+    /**
+     * Get the fields available on the action.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function fields(NovaRequest $request)
+    {
+        return [];
+    }
+}
