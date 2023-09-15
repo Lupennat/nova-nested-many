@@ -4,10 +4,10 @@ namespace Lupennat\NestedMany;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Nova\Console\NestedActionCommand;
 use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
+use Lupennat\NestedMany\Console\NestedActionCommand;
 use Lupennat\NestedMany\Http\Requests\NestedResourceRequest;
 
 class NestedManyServiceProvider extends ServiceProvider
