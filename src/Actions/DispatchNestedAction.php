@@ -4,8 +4,8 @@ namespace Lupennat\NestedMany\Actions;
 
 use Laravel\Nova\Fields\ActionFields;
 use Lupennat\NestedMany\Actions\Basics\NestedBasicAction;
-use Lupennat\NestedMany\Fields\Nested;
 use Lupennat\NestedMany\Http\Requests\NestedActionRequest;
+use Lupennat\NestedMany\Models\Nested;
 
 class DispatchNestedAction
 {
@@ -67,7 +67,7 @@ class DispatchNestedAction
 
                 $nested = $this->action->{$method}(
                     $this->fields,
-                    $resource ? $children->where(Nested::uid(), $resource)->first() : null
+                    $resource ? $children->where(Nested::UIDFIELD, $resource)->first() : null
                 );
 
                 return $response->successfulNested($request, $nested);
