@@ -379,9 +379,6 @@ class DuplicatePost extends NestedAction
                     $newResource->{$key} = $value;
                 }
             }
-            $newResource->country_code = $fields->country_code;
-            $newResource->language_code = $fields->language_code;
-            $newResource->website_code = $fields->website_code;
             $newResource->active();
         }));
 
