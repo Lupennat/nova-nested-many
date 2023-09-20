@@ -1,4 +1,4 @@
-![](https://github.com/Lupennat/nova-nested-many/demo.gif)
+![](https://github.com/Lupennat/nova-nested-many/blob/main/demo.gif)
 
 1. [Requirements](#Requirements)
 2. [Installation](#Installation)
