@@ -48,11 +48,28 @@ export default {
             }
         },
 
-        activateResource(indexOrString) {
-            const number = Number(indexOrString);
+        activateResource(index) {
             for (let x = 0; x < this.resources.length; x++) {
-                this.resources[x].isNestedActive = isNaN(number) ? this.resources[x] == indexOrString : x === number;
+                this.resources[x].isNestedActive = x === index;
             }
+        },
+
+        activateResourceByDefault() {
+            let active = Number(this.field.active || 0);
+            let activeTitle = this.field.activeTitle;
+            let activeFound = false;
+            for (let x = 0; x < this.resources.length; x++) {
+                let isActive = activeTitle ? this.resources[x].title == activeTitle : x === active;
+                this.resources[x].isNestedActive = isActive;
+                if (isActive) {
+                    activeFound = true;
+                }
+            }
+
+            if (!activeFound && this.resources.length > 0) {
+                this.resources[0].isNestedActive = true;
+            }
+
         },
 
         decorateResource(resource) {
@@ -126,6 +143,10 @@ export default {
 
                 return carry;
             }, {});
-        }
+        },
+
+        defaultActive() {
+            return (this.field.active || '') + (this.field.activeTitle || '');
+        },
     }
 };

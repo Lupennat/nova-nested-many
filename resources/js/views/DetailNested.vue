@@ -133,7 +133,7 @@
 
                     this.resources = data.resources;
 
-                    this.activateResource(this.field.active);
+                    this.activateResourceByDefault();
 
                     this.handleResourcesLoaded();
                 } catch (e) {

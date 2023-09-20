@@ -145,9 +145,9 @@
                 },
                 deep: true
             });
-            this.$watch('active', function (val, oldVal) {
+            this.$watch('defaultActive', function (val, oldVal) {
                 if (val !== oldVal) {
-                    this.activateResource(val);
+                    this.activateResourceByDefault();
                 }
             });
             this.$watch('runningActionKey', function (val) {
@@ -234,7 +234,7 @@
                         })
                     ).data.resources;
 
-                    this.activateResource(this.active);
+                    this.activateResourceByDefault();
                 } catch (error) {
                     throw error;
                 }
@@ -377,10 +377,6 @@
 
             isVisible() {
                 return this.field.visible;
-            },
-
-            active() {
-                return this.field.active;
             },
 
             needsReload() {

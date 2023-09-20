@@ -39,7 +39,12 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
     /**
      * Active Child.
      */
-    public int|string $active = 0;
+    public int|null $active = 0;
+
+    /**
+     * Active Title Child.
+     */
+    public string|int|null $activeTitle = null;
 
     /**
      * Default children.
@@ -102,9 +107,13 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
      *
      * @return $this
      */
-    public function active(int $active = 0)
+    public function active(int|null $active = 0)
     {
         $this->active = $active;
+
+        if (!is_null($this->active)) {
+            $this->activeTitle = null;
+        }
 
         return $this;
     }
@@ -114,9 +123,13 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
      *
      * @return $this
      */
-    public function activeTitle(string|null $activeTitle = null)
+    public function activeTitle(string|int|null $activeTitle = null)
     {
-        $this->active = $activeTitle ?? 0;
+        $this->activeTitle = $activeTitle;
+
+        if (!is_null($this->activeTitle)) {
+            $this->active = null;
+        }
 
         return $this;
     }
@@ -161,17 +174,6 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
         return $this;
     }
 
-    /**
-     * Min Children number.
-     *
-     * @return $this
-     */
-    public function min(int $min)
-    {
-        $this->min = $min;
-
-        return $this;
-    }
 
     /**
      * Lock Add/Remove Children.
@@ -243,6 +245,7 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
         return with(app(NovaRequest::class), function ($request) {
             return array_merge([
                 'active' => $this->active,
+                'activeTitle' => $this->activeTitle,
                 'authorizedToCreateNested' => $this->authorizedToRelate($request),
                 'canChangeViewType' => $this->canChangeViewType,
                 'collapsedChildrenByDefault' => $this->collapsedChildrenByDefault,
