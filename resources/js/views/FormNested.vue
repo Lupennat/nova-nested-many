@@ -139,11 +139,10 @@
             this.initialLoading = true;
             await this.initializeComponent();
             this.initialLoading = false;
-            this.$watch('needsReload', {
-                handler: function (val, oldVal) {
+            this.$watch('needsReload', function (val, oldVal) {
+                if (val !== oldVal) {
                     this.initializeComponent();
-                },
-                deep: true
+                }
             });
             this.$watch('defaultActive', function (val, oldVal) {
                 if (val !== oldVal) {
@@ -380,11 +379,11 @@
             },
 
             needsReload() {
-                return {
+                return JSON.stringify({
                     defaultChildren: this.defaultChildren,
                     propagated: this.propagated,
                     hiddenFields: this.hiddenFields
-                };
+                });
             },
 
             /**
