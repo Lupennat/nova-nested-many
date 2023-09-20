@@ -32,7 +32,8 @@ export default {
                             viaResourceId: this.viaResourceId,
                             viaRelationship: this.viaRelationship,
                             viaResourceRelationship: this.viaResourceRelationship,
-                            relationshipType: this.relationshipType
+                            relationshipType: this.relationshipType,
+                            ...this.nestedPropagated
                         }
                     })
                 ).data;
@@ -183,7 +184,8 @@ export default {
                 pivotAction: false,
                 viaResource: this.viaResource,
                 viaResourceId: this.viaResourceId,
-                viaRelationship: this.viaRelationship
+                viaRelationship: this.viaRelationship,
+                ...this.nestedPropagated
             };
         },
         /**
