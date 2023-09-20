@@ -262,6 +262,7 @@ trait NestedStorable
                     'viaResource' => $viaResource,
                     'viaResourceId' => $model->getKey(),
                     'viaRelationship' => $viaRelationship,
+                    'nestedPropagated' => $request->nestedPropagated
                 ])
                 ->merge($child['attributes'])
         );
@@ -284,6 +285,7 @@ trait NestedStorable
                     'viaResource' => $viaResource,
                     'viaResourceId' => $model->getKey(),
                     'viaRelationship' => $viaRelationship,
+                    'nestedPropagated' => $request->nestedPropagated
                 ])
                 ->merge($child['attributes'])
         );
@@ -309,6 +311,7 @@ trait NestedStorable
                     'viaResourceId' => null,
                     'viaRelationship' => null,
                     'resources' => $children,
+                    'nestedPropagated' => $request->nestedPropagated
                 ])
             );
 
