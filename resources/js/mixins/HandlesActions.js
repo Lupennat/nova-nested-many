@@ -185,7 +185,6 @@ export default {
                 viaResource: this.viaResource,
                 viaResourceId: this.viaResourceId,
                 viaRelationship: this.viaRelationship,
-                ...this.nestedPropagated
             };
         },
         /**

@@ -3,6 +3,9 @@ import InlineFormData from '@/fields/Form/InlineFormData';
 export default {
     methods: {
         generateResourcesFormData(formData, attribute, resources, primaryKeyName, withDeleted = false) {
+            for (const key in this.nestedPropagated) {
+                formData.append(key,this.nestedPropagated[key]);
+            }
             let formIndex = 0;
             _.each(resources, (resource, index) => {
                 if (!resource.loading) {

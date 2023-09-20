@@ -58,8 +58,6 @@ trait NestedStorable
      */
     public function getCreationRules(NovaRequest $request)
     {
-        return parent::getCreationRules($request);
-
         return array_merge_recursive(parent::getCreationRules($request), $this->getAvailableValidationRules($request));
     }
 
@@ -70,8 +68,6 @@ trait NestedStorable
      */
     public function getUpdateRules(NovaRequest $request)
     {
-        // return parent::getUpdateRules($request);
-
         return array_merge_recursive(parent::getUpdateRules($request), $this->getAvailableValidationRules($request));
     }
 

@@ -227,7 +227,10 @@
                 try {
                     this.decoratedResources = (
                         await Nova.request().get('/nova-vendor/nested-many/' + this.resourceName + '/edit-resources', {
-                            params: this.resourceRequestEditQueryString
+                            params: {
+                                ...this.resourceRequestEditQueryString,
+                                ...this.nestedPropagated
+                            }
                         })
                     ).data.resources;
 
@@ -399,7 +402,6 @@
                     viaRelationship: this.viaRelationship,
                     viaResourceRelationship: this.viaResourceRelationship,
                     relationshipType: this.relationshipType,
-                    ...this.nestedPropagated
                 };
             }
         }
