@@ -69,7 +69,12 @@ export default {
             return this.errors.has(`${this.validationKey}.${index}`);
         },
 
+        adjustIndexForValidation(index) {
+            return index - this.resources.slice(0, index).filter(resource => resource.isNestedSoftDeleted).length;
+        },
+
         getResourceErrors(index) {
+            index = this.adjustIndexForValidation(index);
             return new Errors(
                 Object.keys(this.errors.all())
                     .filter(e => e.startsWith(`${this.validationKey}.${index}.`))
