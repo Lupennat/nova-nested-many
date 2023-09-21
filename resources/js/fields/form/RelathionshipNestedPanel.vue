@@ -39,12 +39,6 @@
             }
         },
 
-        mounted() {
-            if (!this.field.authorizedToCreate) {
-                this.field.fill = () => {};
-            }
-        },
-
         computed: {
             field() {
                 return this.panel.fields[0];

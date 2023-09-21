@@ -198,8 +198,6 @@
 
                     this.calculateCollapsedChildren();
                     this.enableFormUpdate();
-
-                    this.field.fill = this.fill;
                 } catch (error) {
                     Nova.error(this.__('There was a problem fetching the resource.'));
                 } finally {
