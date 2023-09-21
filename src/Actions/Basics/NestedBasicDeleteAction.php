@@ -16,6 +16,10 @@ class NestedBasicDeleteAction extends NestedBasicAction
 
     public $destructive = true;
 
+    public $confirmText = 'This operation cannot be undone, are you sure you want to remove?';
+
+    public $confirmButtonText = 'Remove';
+
     /**
      * Perform the action on the given models.
      *

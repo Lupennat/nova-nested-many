@@ -155,7 +155,9 @@ export default {
          * Handle the action response. Typically either a message, download or a redirect.
          */
         handleActionResponse() {
-            Nova.success('Succesfully executed!');
+            if (!this.isSelectedActionBasic) {
+                Nova.success('Succesfully executed!');
+            }
         }
     },
 
@@ -207,6 +209,10 @@ export default {
 
         syncEndpoint() {
             return `/nova-vendor/nested-many/${this.resourceName}/action`;
+        },
+
+        isSelectedActionBasic() {
+            return [this.addAction.uriKey, this.deleteAction.uriKey, this.restoreAction.uriKey].includes(this.selectedActionKey);
         }
     }
 };

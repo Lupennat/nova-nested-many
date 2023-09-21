@@ -44,7 +44,11 @@ trait HasNestedResource
      */
     public function nestedDeleteAction(NovaRequest $request): NestedBasicDeleteAction
     {
-        return new NestedBasicDeleteAction('Remove ' . $this::singularLabel());
+        return tap(new NestedBasicDeleteAction('Remove ' . $this::singularLabel()),function(NestedBasicDeleteAction $action) {
+            if (!$this->resource->hasNestedSoftDelete()) {
+                $action->withConfirmation();
+            }
+        });
     }
 
     /**
