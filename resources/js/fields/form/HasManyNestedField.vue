@@ -2,6 +2,7 @@
     <ResourceFormNested
         :field="currentField"
         :help-text="helpText"
+        ref="nestedForm"
         :show-help-text="showHelpText"
         :mode="mode"
         :errors="errors"
@@ -53,6 +54,11 @@
             errors: {
                 type: Object,
                 required: true
+            },
+        },
+        methods: {
+            fill(formData) {
+                this.$refs.nestedForm.fill(formData);
             }
         }
     };
