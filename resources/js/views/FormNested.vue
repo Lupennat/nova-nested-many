@@ -3,11 +3,11 @@
         <div>
             <Heading
                 :level="1"
-                :class="[helpText || hasError ? 'mb-2' : 'mb-3', hasError ? 'text-red-500' : '']"
+                :class="[hasHelpText || hasError ? 'mb-2' : 'mb-3', hasError ? 'text-red-500' : '']"
                 class="mb-3 md:flex items-center"
             >
                 <div class="flex flex-wrap items-center">
-                    <BasicButton type="button" v-if="canChangeViewType" @click="switchViewType" :disabled="loading">
+                    <BasicButton type="button" class="px-0 mr-3" v-if="canChangeViewType" @click="switchViewType" :disabled="loading">
                         <Icon
                             :type="!isPanelView ? 'view-list' : 'view-grid'"
                             :title="!isPanelView ? 'view as panels' : 'view as tabs'"
@@ -40,7 +40,7 @@
                 </div>
             </Heading>
 
-            <p v-if="helpText" class="text-gray-500 text-sm font-semibold italic mb-3" v-html="helpText"></p>
+            <p v-if="hasHelpText" class="text-gray-500 text-sm font-semibold italic mb-3" v-html="field.helpText"></p>
             <p v-if="firstError" class="help-text-error mb-3">{{ firstError }}</p>
 
             <div class="flex"></div>
@@ -122,10 +122,6 @@
 
         props: {
             ...mapProps(['showHelpText', 'mode']),
-
-            helpText: {
-                default: null
-            }
         },
 
         data: () => ({
@@ -356,6 +352,11 @@
         },
 
         computed: {
+
+            hasHelpText() {
+                return !!this.showHelpText && !!this.field.helpText;
+            },
+
             isLocked() {
                 return this.field.lock;
             },
