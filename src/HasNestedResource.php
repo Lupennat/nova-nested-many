@@ -227,17 +227,21 @@ trait HasNestedResource
      */
     public function serializeForNestedDetail(NovaRequest $request)
     {
-        return [
-            'primaryKey' => $this->resource->exists ? $this->resource->getKey() ?? null : null,
-            'fields' => $this->rejectNestedRelatedField(
-                $this->detailFieldsWithinPanels($request, $this),
-                $request
-            )->values(),
-            'isNestedDefault' => false,
-            'isNestedSoftDeleted' => false,
-            'isNestedActive' => $this->resource->isNestedActive(),
-            'title' => method_exists($this, 'nestedTitle') ? $this->nestedTitle($request) : $this->title(),
-        ];
+        return array_merge(
+            $this->serializeWithId(
+                $this->rejectNestedRelatedField(
+                    $this->detailFieldsWithinPanels($request, $this),
+                    $request
+                )->values()
+            ),
+            [
+                'primaryKey' => $this->resource->exists ? $this->resource->getKey() ?? null : null,
+                'isNestedDefault' => false,
+                'isNestedSoftDeleted' => false,
+                'isNestedActive' => $this->resource->isNestedActive(),
+                'title' => method_exists($this, 'nestedTitle') ? $this->nestedTitle($request) : $this->title(),
+            ]
+        );
     }
 
     /**
@@ -247,19 +251,23 @@ trait HasNestedResource
      */
     public function serializeForNestedUpdate(NovaRequest $request)
     {
-        return [
-            'primaryKey' => $this->resource->exists ? $this->resource->getKey() ?? null : null,
-            'fields' => $this->changeFieldReadonly(
-                $this->updateFieldsWithinPanels($request, $this)->applyDependsOnWithDefaultValues($request),
-                $request
-            )->values(),
-            'isNestedDefault' => $this->resource->isNestedDefault(),
-            'isNestedSoftDeleted' => $this->resource->isNestedSoftDeleted(),
-            'isNestedActive' => $this->resource->isNestedActive(),
-            'title' => method_exists($this, 'nestedTitle') ? $this->nestedTitle($request) : $this->title(),
-            'authorizedToUpdateNested' => $this->authorizedToUpdateNested($request),
-            'authorizedToDeleteNested' => $this->authorizedToDeleteNested($request),
-        ];
+        return array_merge(
+            $this->serializeWithId(
+                $this->changeFieldReadonly(
+                    $this->updateFieldsWithinPanels($request, $this)->applyDependsOnWithDefaultValues($request),
+                    $request
+                )->values()
+            ),
+            [
+                'primaryKey' => $this->resource->exists ? $this->resource->getKey() ?? null : null,
+                'isNestedDefault' => $this->resource->isNestedDefault(),
+                'isNestedSoftDeleted' => $this->resource->isNestedSoftDeleted(),
+                'isNestedActive' => $this->resource->isNestedActive(),
+                'title' => method_exists($this, 'nestedTitle') ? $this->nestedTitle($request) : $this->title(),
+                'authorizedToUpdateNested' => $this->authorizedToUpdateNested($request),
+                'authorizedToDeleteNested' => $this->authorizedToDeleteNested($request),
+            ]
+        );
     }
 
     /**
@@ -269,20 +277,24 @@ trait HasNestedResource
      */
     public function serializeForNestedCreate(NovaRequest $request)
     {
-        return [
-            'primaryKey' => $this->resource->exists ? $this->resource->getKey() ?? null : null,
-            'fields' => $this->rejectNestedRelatedField(
-                $this->creationFieldsWithinPanels($request, $this)->applyDependsOnWithDefaultValues($request),
-                $request
-            )->values(),
-            'title' => method_exists($this, 'nestedTitle') ? $this->nestedTitle() : $this->title(),
-            // when user can create resource it should always be able to remove and edit before store on DB
-            'isNestedDefault' => $this->resource->isNestedDefault(),
-            'isNestedSoftDeleted' => $this->resource->isNestedSoftDeleted(),
-            'isNestedActive' => $this->resource->isNestedActive(),
-            'authorizedToUpdateNested' => true,
-            'authorizedToDeleteNested' => true,
-        ];
+        return array_merge(
+            $this->serializeWithId(
+                $this->rejectNestedRelatedField(
+                    $this->creationFieldsWithinPanels($request, $this)->applyDependsOnWithDefaultValues($request),
+                    $request
+                )->values()
+            ),
+            [
+                'primaryKey' => $this->resource->exists ? $this->resource->getKey() ?? null : null,
+                'title' => method_exists($this, 'nestedTitle') ? $this->nestedTitle() : $this->title(),
+                // when user can create resource it should always be able to remove and edit before store on DB
+                'isNestedDefault' => $this->resource->isNestedDefault(),
+                'isNestedSoftDeleted' => $this->resource->isNestedSoftDeleted(),
+                'isNestedActive' => $this->resource->isNestedActive(),
+                'authorizedToUpdateNested' => true,
+                'authorizedToDeleteNested' => true,
+            ]
+        );
     }
 
     /**
