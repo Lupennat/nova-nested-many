@@ -2,7 +2,7 @@
     <LoadingView :loading="initialLoading">
         <div>
             <Heading :level="1" class="mb-3 flex items-center">
-                <BasicButton type="button" v-if="canChangeViewType" @click="switchViewType">
+                <BasicButton type="button" class="px-0 mr-3" v-if="canChangeViewType" @click="switchViewType">
                     <Icon
                         :type="!isPanelView ? 'view-list' : 'view-grid'"
                         :title="!isPanelView ? 'view as panels' : 'view as tabs'"
