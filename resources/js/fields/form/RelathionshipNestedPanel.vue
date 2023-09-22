@@ -3,7 +3,6 @@
         <component
             :key="`${field.attribute}:${resourceId}`"
             :is="`form-${field.component}`"
-            :help-text="panel.helpText"
             :errors="validationErrors"
             :resource-name="resourceName"
             :resource-id="resourceId"
