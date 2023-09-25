@@ -320,7 +320,7 @@
             },
 
             runAction(uriKey, resource = null) {
-                let resources = resource ? [resource.uid] : [];
+                let resources = resource ? [resource.nestedUid] : [];
 
                 HandlesActions.methods.runAction.call(this, uriKey, resources);
             },
@@ -332,7 +332,7 @@
                     let index = -1;
                     if (this.selectedResources.length) {
                         index = this.decoratedResources.findIndex(
-                            resource => resource.uid === this.selectedResources[0]
+                            resource => resource.nestedUid === this.selectedResources[0]
                         );
                     }
                     if (index > -1) {

@@ -18,7 +18,7 @@ export default {
                         resourceForm.append('isNestedDefault', resource.isNestedDefault ? 1 : 0);
                         resourceForm.append('isNestedActive', resource.isNestedActive ? 1 : 0);
                         resourceForm.append('isNestedSoftDeleted', resource.isNestedSoftDeleted ? 1 : 0);
-                        resourceForm.append('nestedUid', resource.uid);
+                        resourceForm.append('nestedUid', resource.nestedUid);
 
                         _.each(resource.fields, field => {
                             field.fill(resourceForm);
