@@ -96,6 +96,11 @@ export default {
                 .then(response => {
                     if (!this.keepOpened) {
                         this.confirmActionModalOpened = false;
+                    } else if (this.selectedResources.length === 1) {
+                        const found = this.selectedAction.basic ? response.data.resource?.nestedUid == this.selectedResources[0] : response.data.resources.find(resource => resource.nestedUid == this.selectedResources[0]);
+                        if (!found) {
+                            this.confirmActionModalOpened = false;
+                        }
                     }
 
                     this.handleActionResponse(response.data);

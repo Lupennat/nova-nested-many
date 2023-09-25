@@ -236,6 +236,7 @@ trait HasNestedResource
             ),
             [
                 'primaryKey' => $this->resource->exists ? $this->resource->getKey() ?? null : null,
+                'nestedUid' => $this->resource->getNestedUid(),
                 'isNestedDefault' => false,
                 'isNestedSoftDeleted' => false,
                 'isNestedActive' => $this->resource->isNestedActive(),
@@ -260,6 +261,7 @@ trait HasNestedResource
             ),
             [
                 'primaryKey' => $this->resource->exists ? $this->resource->getKey() ?? null : null,
+                'nestedUid' => $this->resource->getNestedUid(),
                 'isNestedDefault' => $this->resource->isNestedDefault(),
                 'isNestedSoftDeleted' => $this->resource->isNestedSoftDeleted(),
                 'isNestedActive' => $this->resource->isNestedActive(),
@@ -286,6 +288,7 @@ trait HasNestedResource
             ),
             [
                 'primaryKey' => $this->resource->exists ? $this->resource->getKey() ?? null : null,
+                'nestedUid' => $this->resource->getNestedUid(),
                 'title' => method_exists($this, 'nestedTitle') ? $this->nestedTitle() : $this->title(),
                 // when user can create resource it should always be able to remove and edit before store on DB
                 'isNestedDefault' => $this->resource->isNestedDefault(),
