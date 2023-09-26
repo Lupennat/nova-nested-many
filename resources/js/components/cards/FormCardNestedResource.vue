@@ -43,7 +43,7 @@
                 :disabled="!!runningAction"
                 component="NestedManySuccessButton"
                 @click="$emit('run-action', restoreAction.uriKey)"
-                v-if="isSoftDeleted"
+                v-if="isSoftDeleted && canRestore"
             >
                 <Icon type="reply" class="mr-2" /> {{ __(`Restore ${singularName}`) }}
             </LoadingButton>
@@ -85,6 +85,11 @@
             },
 
             canDelete: {
+                type: Boolean,
+                required: true
+            },
+
+            canRestore: {
                 type: Boolean,
                 required: true
             },

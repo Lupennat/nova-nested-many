@@ -39,6 +39,7 @@
                     :via-relationship="viaRelationship"
                     :show-help-text="showHelpText"
                     :can-delete="canDelete"
+                    :can-restore="canRestore"
                     :singular-name="singularName"
                     :has-soft-delete="hasSoftDelete"
                     :available-actions="availableActions"

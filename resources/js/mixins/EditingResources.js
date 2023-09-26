@@ -106,12 +106,20 @@ export default {
     },
 
     computed: {
+        notDeletedResources() {
+            return this.resources.filter(resource => !resource.isNestedSoftDeleted);
+        },
+
         canDelete() {
-            return !this.isLocked && (this.minChildren === null || this.resources.length > this.minChildren);
+            return !this.isLocked && (this.minChildren === null || this.notDeletedResources.length > this.minChildren);
+        },
+
+        canRestore() {
+            return (this.maxChildren === null || this.notDeletedResources.length < this.maxChildren)
         },
 
         autorizedToCreate() {
-            return this.authorizedToCreateNested && !this.isLocked && (this.maxChildren === null || this.resources.length < this.maxChildren);
+            return this.authorizedToCreateNested && !this.isLocked && (this.maxChildren === null || this.notDeletedResources.length < this.maxChildren);
         }
     }
 };
