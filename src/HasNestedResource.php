@@ -281,9 +281,10 @@ trait HasNestedResource
     {
         return array_merge(
             $this->serializeWithId(
-                $this->rejectNestedRelatedField(
+                $this->changeFieldReadonly(
                     $this->creationFieldsWithinPanels($request, $this)->applyDependsOnWithDefaultValues($request),
-                    $request
+                    $request,
+                    false
                 )->values()
             ),
             [
@@ -359,11 +360,11 @@ trait HasNestedResource
      *
      * @return \Laravel\Nova\Fields\FieldCollection<int, \Laravel\Nova\Fields\Field>
      */
-    protected function changeFieldReadonly($fields, NovaRequest $request)
+    protected function changeFieldReadonly($fields, NovaRequest $request, $checkCanUpdate = true)
     {
         $fields = $this->rejectNestedRelatedField($fields, $request);
 
-        if (!$this->authorizedToUpdateNested($request) || $this->resource->isNestedSoftDeleted()) {
+        if (($checkCanUpdate && !$this->authorizedToUpdateNested($request)) || $this->resource->isNestedSoftDeleted()) {
             return $fields->map(fn ($field) => $field->readonly(true));
         }
 
