@@ -38,7 +38,7 @@
                     :via-resource-id="viaResourceId"
                     :via-relationship="viaRelationship"
                     :show-help-text="showHelpText"
-                    :is-locked="isLocked"
+                    :can-delete="canDelete"
                     :singular-name="singularName"
                     :has-soft-delete="hasSoftDelete"
                     :available-actions="availableActions"

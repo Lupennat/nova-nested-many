@@ -17,7 +17,8 @@
       3. [Nestable Custom Actions](#nestable-custom-actions)
       4. [Difference With Nova Actions](#difference-with-nova-actions)
       5. [Nested Object](#nested-object)
-6. [Credits](#credits)
+6. [Changelog](CHANGELOG.md)
+7. [Credits](#credits)
 
 ## Requirements
 
@@ -170,9 +171,9 @@ class Post extends Resource
 
 ### Default Children
 
-You can use `defaultChildren` method to generate a default set of related resource when relation is empty.
+You can use `defaultChildren` method to generate a default set of related resource when children are empty.
 
-> defaultChildren works only on Create Page and Update Pag
+> defaultChildren works only on Create Page.
 
 ```php
 HasNestedMany::make('Posts', Post::class)
@@ -180,6 +181,16 @@ HasNestedMany::make('Posts', Post::class)
         ['title' => 'first post', 'section' => 'sport'],
         ['title' => 'second post', 'section' => 'news'],
     ])
+```
+
+if you want to overwrite existing children you can use
+
+```php
+HasNestedMany::make('Posts', Post::class)
+    ->defaultChildren([
+        ['title' => 'first post', 'section' => 'sport'],
+        ['title' => 'second post', 'section' => 'news'],
+    ], true)
 ```
 
 ### Additional options
@@ -193,6 +204,8 @@ HasNestedMany::make('Posts', Post::class)
 | `->canChangeViewType(bool = true)` | enable switch view type button                  | false   |
 | `->hideFields(array<string>)`      | Hide fields on related resource                 | []      |
 | `->lock(bool = true)`              | Disable Add/Remove buttons for related resource | false   |
+| `->min(int = null)`                | Set Min children                                | null    |
+| `->max(int = null)`                | Set Max children                                | null    |
 
 ## Nestable Resource
 

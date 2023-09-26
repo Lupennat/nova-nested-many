@@ -84,7 +84,7 @@
                 required: true
             },
 
-            isLocked: {
+            canDelete: {
                 type: Boolean,
                 required: true
             },
@@ -162,7 +162,7 @@
 
             autorizedToDelete() {
                 return (
-                    this.resource.authorizedToDeleteNested && this.deleteAction && this.restoreAction && !this.isLocked
+                    this.resource.authorizedToDeleteNested && this.deleteAction && this.restoreAction && this.canDelete
                 );
             },
 

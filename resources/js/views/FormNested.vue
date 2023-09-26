@@ -59,6 +59,8 @@
                         :relationship-type="relationshipType"
                         :authorized-to-create-nested="authorizedToCreateNested"
                         :is-locked="isLocked"
+                        :min-children="minChildren"
+                        :max-children="maxChildren"
                         :collapsed-children="collapsedChildren"
                         :singular-name="singularName"
                         :errors="errors"
@@ -188,7 +190,7 @@
                         this.initialLoading ? this.getResources() : this.getUpdatedResources()
                     ]);
 
-                    if (this.isCreatingParent && this.decoratedResources.length === 0) {
+                    if (this.isCreatingParent && (this.decoratedResources.length === 0 || this.overwriteWithDefault)) {
                         this.decoratedResources = this.defaultResources.slice();
                     }
 
@@ -361,12 +363,24 @@
                 return this.field.lock;
             },
 
+            minChildren() {
+                return this.field.min;
+            },
+
+            maxChildren() {
+                return this.field.max
+            },
+
             resolveComponentName() {
                 return this.isPanelView ? 'form-panels-nested-resource' : 'form-tabs-nested-resource';
             },
 
             defaultChildren() {
                 return this.field.defaultChildren;
+            },
+
+            overwriteWithDefault() {
+                return this.field.defaultChildrenOverwrite
             },
 
             isCreatingParent() {

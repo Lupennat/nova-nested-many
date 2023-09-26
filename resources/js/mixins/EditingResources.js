@@ -31,6 +31,14 @@ export default {
             required: true
         },
 
+        minChildren: {
+            required: true
+        },
+
+        maxChildren: {
+            required: true
+        },
+
         validationKey: {
             type: String,
             required: true
@@ -98,8 +106,12 @@ export default {
     },
 
     computed: {
+        canDelete() {
+            return !this.isLocked && (this.minChildren === null || this.resources.length > this.minChildren);
+        },
+
         autorizedToCreate() {
-            return this.authorizedToCreateNested && !this.isLocked;
+            return this.authorizedToCreateNested && !this.isLocked && (this.maxChildren === null || this.resources.length < this.maxChildren);
         }
     }
 };
