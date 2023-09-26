@@ -54,6 +54,11 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
     public array $defaultChildren = [];
 
     /**
+     * Default children overwrite existings children.
+     */
+    public bool $defaultChildrenOverwrite = false;
+
+    /**
      * Mandatory Fields before create.
      *
      * @var array<string>
@@ -64,6 +69,21 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
      * Lock Add/Remove Children.
      */
     public bool $lock = false;
+
+    /**
+     * Min children
+     *
+     * @var null|int
+     */
+    public $min = null;
+
+    /**
+     * Max children
+     *
+     * @var null|int
+     */
+    public $max = null;
+
 
     /**
      * Make current field behaves as panel.
@@ -153,9 +173,10 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
      *
      * @return $this
      */
-    public function defaultChildren($children)
+    public function defaultChildren($children, $overwrite = false)
     {
         $this->defaultChildren = $children;
+        $this->defaultChildrenOverwrite = $overwrite;
 
         return $this;
     }
@@ -183,6 +204,34 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
     public function lock(bool $lock = true)
     {
         $this->lock = $lock;
+
+        return $this;
+    }
+
+    /**
+    * set min children
+    *
+    * @param int|null $min
+    *
+    * @return $this
+    */
+    public function min($min = null)
+    {
+        $this->min = $min;
+
+        return $this;
+    }
+
+    /**
+     * set max children
+     *
+     * @param int|null $max
+     *
+     * @return $this
+     */
+    public function max($max = null)
+    {
+        $this->max = $max;
 
         return $this;
     }
@@ -250,10 +299,13 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
                 'canChangeViewType' => $this->canChangeViewType,
                 'collapsedChildrenByDefault' => $this->collapsedChildrenByDefault,
                 'defaultChildren' => $this->resolveDefaultChildren($request),
+                'defaultChildrenOverwrite' => $this->defaultChildrenOverwrite,
                 'hasNestedSoftDelete' => $this->hasNestedSoftDelete(),
                 'hiddenFields' => $this->hiddenFields,
                 'primaryKeyName' => $this->resolvePrimaryKeyName(),
                 'lock' => $this->lock,
+                'min' => $this->min,
+                'max' => $this->max,
                 'mode' => $request instanceof ResourceCreateOrAttachRequest ? 'create' : 'update',
                 'useTabs' => $this->useTabs,
                 'propagated' => $this->propagated,

@@ -43,7 +43,7 @@
                 :disabled="!!runningAction"
                 component="NestedManySuccessButton"
                 @click="$emit('run-action', restoreAction.uriKey)"
-                v-if="isSoftDeleted"
+                v-if="isSoftDeleted && canRestore"
             >
                 <Icon type="reply" class="mr-2" /> {{ __(`Restore ${singularName}`) }}
             </LoadingButton>
@@ -84,7 +84,12 @@
                 required: true
             },
 
-            isLocked: {
+            canDelete: {
+                type: Boolean,
+                required: true
+            },
+
+            canRestore: {
                 type: Boolean,
                 required: true
             },
@@ -162,7 +167,7 @@
 
             autorizedToDelete() {
                 return (
-                    this.resource.authorizedToDeleteNested && this.deleteAction && this.restoreAction && !this.isLocked
+                    this.resource.authorizedToDeleteNested && this.deleteAction && this.restoreAction && this.canDelete
                 );
             },
 
