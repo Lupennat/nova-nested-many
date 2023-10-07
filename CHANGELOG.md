@@ -1,3 +1,9 @@
+## v1.5.1
+
+### Bug Fix
+
+- Laravel Nova InlineFormData replaced with custom NestedFormData ([#10](https://github.com/Lupennat/nova-nested-many/issues/10))
+
 ## v1.5.0
 
 ### New
