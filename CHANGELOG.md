@@ -1,3 +1,9 @@
+## v1.5.2
+
+### Bug Fix
+
+- HasManyNested field hidden on Index Page by default
+
 ## v1.5.1
 
 ### Bug Fix
