@@ -32,6 +32,13 @@ class HasManyNested extends Nested
     public $resourceName;
 
     /**
+     * Indicates if the element should be shown on the index view.
+     *
+     * @var (callable():(bool))|bool
+     */
+    public $showOnIndex = false;
+
+    /**
      * The name of the Eloquent "has many" relationship.
      *
      * @var string
