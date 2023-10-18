@@ -7,9 +7,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 trait NestedChildrenable
 {
     /**
-     * @var array<int,array<string,mixed>>
+     * @var array<string,<int,array<string,mixed>>>
      */
-    private static $nestedChildrenFromRequest;
+    private static $nestedChildrenFromRequest = [];
 
     /**
      * Get nested children from request.
@@ -18,11 +18,11 @@ trait NestedChildrenable
      */
     private static function nestedChildrenFromRequest(NovaRequest $request, string $attribute): array
     {
-        if (is_null(static::$nestedChildrenFromRequest)) {
-            static::$nestedChildrenFromRequest = is_array($request->{$attribute}) ? $request->{$attribute} : [];
+        if (!array_key_exists($attribute, static::$nestedChildrenFromRequest)) {
+            static::$nestedChildrenFromRequest[$attribute] = is_array($request->{$attribute}) ? $request->{$attribute} : [];
         }
 
-        return static::$nestedChildrenFromRequest;
+        return static::$nestedChildrenFromRequest[$attribute];
     }
 
     /**

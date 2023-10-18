@@ -223,6 +223,8 @@ trait NestedStorable
             $childrenToDelete = $model->{$this->relationshipName()}()->whereNotIn($keyName, $keys)->pluck($keyName)->toArray();
 
             $viaResource = $request->route('resource');
+            $viaResourceId = $request->route('resourceId');
+
             $relatedFields = (new $resourceClass())
                 ->availableFields($request)
                 ->filter($this->rejectRecursiveRelatedResourceFields($request))
@@ -230,10 +232,10 @@ trait NestedStorable
 
             $viaRelationship = $this->attribute;
 
-            $newRequest = NovaRequest::createFrom($request);
+            $request->route()->setParameter('resource', $this->resourceName);
+            $request->route()->forgetParameter('resourceId');
 
-            $newRequest->route()->setParameter('resource', $this->resourceName);
-            $newRequest->route()->forgetParameter('resourceId');
+            $newRequest = NovaRequest::createFrom($request);
 
             $this->deleteChildren($newRequest, $childrenToDelete);
 
@@ -248,6 +250,10 @@ trait NestedStorable
                     $this->createChild($newRequest, $model, $child, $index, $viaResource, $viaRelationship);
                 }
             }
+
+            $request->route()->setParameter('resource', $viaResource);
+            $request->route()->setParameter('resourceId', $viaResourceId);
+
         }
     }
 
