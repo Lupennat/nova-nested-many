@@ -2,7 +2,7 @@
 
 ### Bug Fix
 
-- Multiple HasManyNested on resource ([#13](https://github.com/Lupennat/nova-nested-many/issues/13)
+- Multiple HasManyNested on resource ([#13](https://github.com/Lupennat/nova-nested-many/issues/13))
   
 ## v1.5.2
 
