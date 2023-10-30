@@ -252,6 +252,7 @@ trait HasNestedResource
      */
     public function serializeForNestedUpdate(NovaRequest $request)
     {
+        request()->setMethod('GET');
         return array_merge(
             $this->serializeWithId(
                 $this->changeFieldReadonly(
@@ -279,6 +280,7 @@ trait HasNestedResource
      */
     public function serializeForNestedCreate(NovaRequest $request)
     {
+        request()->setMethod('GET');
         return array_merge(
             $this->serializeWithId(
                 $this->changeFieldReadonly(

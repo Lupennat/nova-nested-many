@@ -1,3 +1,9 @@
+## v1.5.4
+
+### Bug Fix
+
+- GET method on request when serializing fields ([#10](https://github.com/Lupennat/nova-nested-many/issues/10))
+
 ## v1.5.3
 
 ### Bug Fix
