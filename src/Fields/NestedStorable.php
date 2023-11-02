@@ -20,6 +20,48 @@ trait NestedStorable
     use NestedChildrenable;
 
     /**
+     * Before fill Callback.
+     *
+     * @var (\Closure(\Illuminate\Database\Eloquent\Model):(void))
+     */
+    public $beforeFillCallback;
+
+    /**
+     * After fill Callback.
+     *
+     * @var (\Closure(\Illuminate\Database\Eloquent\Model):(void))
+     */
+    public $afterFillCallback;
+
+    /**
+     * Before Fill Hook.
+     *
+     * @param (\Closure(\Illuminate\Database\Eloquent\Model):(void)) $callback
+     *
+     * @return $this
+     */
+    public function beforeFill($callback)
+    {
+        $this->beforeFillCallback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * After Fill Hook.
+     *
+     * @param (\Closure(\Illuminate\Database\Eloquent\Model):(void)) $callback
+     *
+     * @return $this
+     */
+    public function afterFill($callback)
+    {
+        $this->afterFillCallback = $callback;
+
+        return $this;
+    }
+
+    /**
      * Get the validation attribute names for the field.
      *
      * @return array<string, string>
@@ -182,8 +224,8 @@ trait NestedStorable
     {
         return function ($field) use ($request) {
             if (
-                (($field instanceof BelongsTo || $field instanceof BelongsToMany) && $field->resourceName === $request->route('resource')) ||
-                ($field instanceof MorphTo && collect($field->morphToTypes)->pluck('value')->contains($request->route('resource')))
+                (($field instanceof BelongsTo || $field instanceof BelongsToMany) && $field->resourceName === $request->route('resource'))
+                || ($field instanceof MorphTo && collect($field->morphToTypes)->pluck('value')->contains($request->route('resource')))
             ) {
                 return true;
             }
@@ -237,6 +279,10 @@ trait NestedStorable
 
             $newRequest = NovaRequest::createFrom($request);
 
+            if (is_callable($this->beforeFillCallback)) {
+                call_user_func($this->beforeFillCallback, $model);
+            }
+
             $this->deleteChildren($newRequest, $childrenToDelete);
 
             foreach ($children as $index => $child) {
@@ -251,9 +297,12 @@ trait NestedStorable
                 }
             }
 
+            if (is_callable($this->afterFillCallback)) {
+                call_user_func($this->afterFillCallback, $model);
+            }
+
             $request->route()->setParameter('resource', $viaResource);
             $request->route()->setParameter('resourceId', $viaResourceId);
-
         }
     }
 
@@ -268,7 +317,7 @@ trait NestedStorable
                     'viaResource' => $viaResource,
                     'viaResourceId' => $model->getKey(),
                     'viaRelationship' => $viaRelationship,
-                    'nestedPropagated' => $request->nestedPropagated
+                    'nestedPropagated' => $request->nestedPropagated,
                 ])
                 ->merge($child['attributes'])
         );
@@ -291,7 +340,7 @@ trait NestedStorable
                     'viaResource' => $viaResource,
                     'viaResourceId' => $model->getKey(),
                     'viaRelationship' => $viaRelationship,
-                    'nestedPropagated' => $request->nestedPropagated
+                    'nestedPropagated' => $request->nestedPropagated,
                 ])
                 ->merge($child['attributes'])
         );
@@ -317,7 +366,7 @@ trait NestedStorable
                     'viaResourceId' => null,
                     'viaRelationship' => null,
                     'resources' => $children,
-                    'nestedPropagated' => $request->nestedPropagated
+                    'nestedPropagated' => $request->nestedPropagated,
                 ])
             );
 

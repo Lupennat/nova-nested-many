@@ -1,3 +1,10 @@
+## v1.6.0
+
+### New
+
+- beforeFill hook
+- afterFill hook
+
 ## v1.5.4
 
 ### Bug Fix
@@ -9,7 +16,7 @@
 ### Bug Fix
 
 - Multiple HasManyNested on resource ([#13](https://github.com/Lupennat/nova-nested-many/issues/13))
-  
+
 ## v1.5.2
 
 ### Bug Fix

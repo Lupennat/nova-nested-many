@@ -8,6 +8,7 @@
    2. [Propagate](#propagate)
    3. [Default Children](#default-children)
    4. [Additional options](#additional-options)
+   5. [Hooks](#hooks)
 5. [Nestable Resource](#nestable-resource)
    1. [Nestable Title](#nestable-title)
    2. [Nestable Authorization](#nestable-authorization)
@@ -206,6 +207,35 @@ HasNestedMany::make('Posts', Post::class)
 | `->lock(bool = true)`              | Disable Add/Remove buttons for related resource | false   |
 | `->min(int = null)`                | Set Min children                                | null    |
 | `->max(int = null)`                | Set Max children                                | null    |
+
+### Hooks
+
+You can specify callbacks before and after `HasNestedMany` fill the database.
+
+```php
+namespace App\Nova;
+
+use Illuminate\Http\Request;
+use Lupennat\NestedMany\Fields\HasManyNested;
+
+class User extends Resource
+{
+
+    public function fields(Request $request)
+    {
+        return [
+            HasNestedMany::make('Posts', Post::class)
+                ->beforeFill(function(\App\Models\User $user) {
+                    // do stuff
+                })
+                ->afterFill(function(\App\Models\User $user) {
+                    // do stuff
+                })
+        ];
+    }
+
+}
+```
 
 ## Nestable Resource
 
