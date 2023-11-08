@@ -22,21 +22,21 @@ trait NestedStorable
     /**
      * Before fill Callback.
      *
-     * @var (\Closure(\Illuminate\Database\Eloquent\Model):(void))
+     * @var (\Closure(\Illuminate\Database\Eloquent\Model, Laravel\Nova\Http\Requests\NovaRequest):(void))
      */
     public $beforeFillCallback;
 
     /**
      * After fill Callback.
      *
-     * @var (\Closure(\Illuminate\Database\Eloquent\Model):(void))
+     * @var (\Closure(\Illuminate\Database\Eloquent\Model, Laravel\Nova\Http\Requests\NovaRequest):(void))
      */
     public $afterFillCallback;
 
     /**
      * Before Fill Hook.
      *
-     * @param (\Closure(\Illuminate\Database\Eloquent\Model):(void)) $callback
+     * @param (\Closure(\Illuminate\Database\Eloquent\Model, Laravel\Nova\Http\Requests\NovaRequest):(void)) $callback
      *
      * @return $this
      */
@@ -50,7 +50,7 @@ trait NestedStorable
     /**
      * After Fill Hook.
      *
-     * @param (\Closure(\Illuminate\Database\Eloquent\Model):(void)) $callback
+     * @param (\Closure(\Illuminate\Database\Eloquent\Model, Laravel\Nova\Http\Requests\NovaRequest):(void)) $callback
      *
      * @return $this
      */
