@@ -217,6 +217,7 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Lupennat\NestedMany\Fields\HasManyNested;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
@@ -225,10 +226,10 @@ class User extends Resource
     {
         return [
             HasNestedMany::make('Posts', Post::class)
-                ->beforeFill(function(\App\Models\User $user) {
+                ->beforeFill(function(\App\Models\User $user, NovaRequest $request) {
                     // do stuff
                 })
-                ->afterFill(function(\App\Models\User $user) {
+                ->afterFill(function(\App\Models\User $user, NovaRequest $request) {
                     // do stuff
                 })
         ];

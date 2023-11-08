@@ -1,3 +1,9 @@
+## v1.6.1
+
+### New
+
+- beforeFill and afterFill hook added parameter NovaRequest
+
 ## v1.6.0
 
 ### New

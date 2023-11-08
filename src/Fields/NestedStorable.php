@@ -22,21 +22,21 @@ trait NestedStorable
     /**
      * Before fill Callback.
      *
-     * @var (\Closure(\Illuminate\Database\Eloquent\Model):(void))
+     * @var (\Closure(\Illuminate\Database\Eloquent\Model, Laravel\Nova\Http\Requests\NovaRequest):(void))
      */
     public $beforeFillCallback;
 
     /**
      * After fill Callback.
      *
-     * @var (\Closure(\Illuminate\Database\Eloquent\Model):(void))
+     * @var (\Closure(\Illuminate\Database\Eloquent\Model, Laravel\Nova\Http\Requests\NovaRequest):(void))
      */
     public $afterFillCallback;
 
     /**
      * Before Fill Hook.
      *
-     * @param (\Closure(\Illuminate\Database\Eloquent\Model):(void)) $callback
+     * @param (\Closure(\Illuminate\Database\Eloquent\Model, Laravel\Nova\Http\Requests\NovaRequest):(void)) $callback
      *
      * @return $this
      */
@@ -50,7 +50,7 @@ trait NestedStorable
     /**
      * After Fill Hook.
      *
-     * @param (\Closure(\Illuminate\Database\Eloquent\Model):(void)) $callback
+     * @param (\Closure(\Illuminate\Database\Eloquent\Model, Laravel\Nova\Http\Requests\NovaRequest):(void)) $callback
      *
      * @return $this
      */
@@ -250,6 +250,11 @@ trait NestedStorable
                 $this->fillInto($request, $model, $attribute, $requestAttribute);
             });
         } else {
+
+            if (is_callable($this->beforeFillCallback)) {
+                call_user_func($this->beforeFillCallback, $model, $request);
+            }
+
             $resourceClass = $this->resourceClass;
 
             $children = static::getNestedChildrenModelAttributes($request, $this->attribute, $resourceClass);
@@ -279,10 +284,6 @@ trait NestedStorable
 
             $newRequest = NovaRequest::createFrom($request);
 
-            if (is_callable($this->beforeFillCallback)) {
-                call_user_func($this->beforeFillCallback, $model);
-            }
-
             $this->deleteChildren($newRequest, $childrenToDelete);
 
             foreach ($children as $index => $child) {
@@ -297,12 +298,12 @@ trait NestedStorable
                 }
             }
 
-            if (is_callable($this->afterFillCallback)) {
-                call_user_func($this->afterFillCallback, $model);
-            }
-
             $request->route()->setParameter('resource', $viaResource);
             $request->route()->setParameter('resourceId', $viaResourceId);
+
+            if (is_callable($this->afterFillCallback)) {
+                call_user_func($this->afterFillCallback, $model, $request);
+            }
         }
     }
 
