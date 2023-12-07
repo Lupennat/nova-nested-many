@@ -1,6 +1,6 @@
 <template>
     <div v-if="shouldShowDropdown">
-        <Dropdown class="z-50">
+        <Dropdown>
             <span class="sr-only">{{ __('Resource Row Dropdown') }}</span>
             <DropdownTrigger :show-arrow="false">
                 <span class="py-0.5 px-2 rounded">
