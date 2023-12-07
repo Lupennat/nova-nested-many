@@ -13,69 +13,69 @@ export default {
 
         authorizedToCreateNested: {
             type: Boolean,
-            required: true
+            required: true,
         },
 
         errors: {
             type: Object,
-            required: true
+            required: true,
         },
 
         hasSoftDelete: {
             type: Boolean,
-            required: true
+            required: true,
         },
 
         isLocked: {
             type: Boolean,
-            required: true
+            required: true,
         },
 
         minChildren: {
-            required: true
+            required: true,
         },
 
         maxChildren: {
-            required: true
+            required: true,
         },
 
         validationKey: {
             type: String,
-            required: true
+            required: true,
         },
 
         availableActions: {
             type: Array,
-            required: true
+            required: true,
         },
 
         primaryKeyName: {
             type: String,
-            required: true
+            required: true,
         },
 
         addAction: {
-            required: true
+            required: true,
         },
 
         deleteAction: {
-            required: true
+            required: true,
         },
 
         restoreAction: {
-            required: true
+            required: true,
         },
 
         runningAction: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
 
     methods: {
         hasErrors(index) {
             if (this.resources[index].isNestedSoftDeleted) {
-                return false
+                return false;
             }
 
             index = this.adjustIndexForValidation(index);
@@ -100,9 +100,9 @@ export default {
                     .reduce((carry, key) => {
                         carry[key.replace(`${this.validationKey}.${index}.`, '')] = this.errors.get(key);
                         return carry;
-                    }, {})
+                    }, {}),
             );
-        }
+        },
     },
 
     computed: {
@@ -115,11 +115,15 @@ export default {
         },
 
         canRestore() {
-            return (this.maxChildren === null || this.notDeletedResources.length < this.maxChildren)
+            return this.maxChildren === null || this.notDeletedResources.length < this.maxChildren;
         },
 
         autorizedToCreate() {
-            return this.authorizedToCreateNested && !this.isLocked && (this.maxChildren === null || this.notDeletedResources.length < this.maxChildren);
-        }
-    }
+            return (
+                this.authorizedToCreateNested &&
+                !this.isLocked &&
+                (this.maxChildren === null || this.notDeletedResources.length < this.maxChildren)
+            );
+        },
+    },
 };

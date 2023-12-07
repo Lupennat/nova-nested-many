@@ -20,18 +20,18 @@
 
             runningAction: {
                 type: String,
-                required: true
-            }
+                required: true,
+            },
         },
 
         data: () => ({
             selectedActionKey: '',
-            selectedActionName: ''
+            selectedActionName: '',
         }),
 
         created() {
             this.selectedActionKey = this.actions[0].uriKey;
             this.selectedActionName = this.actions[0].name;
-        }
+        },
     };
 </script>

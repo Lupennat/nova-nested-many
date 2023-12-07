@@ -12,7 +12,7 @@
                         :class="{
                             'line-through border-gray-500 text-gray-500': resource.isNestedSoftDeleted,
                             'border-red-500 text-red-500': hasErrors(index),
-                            'border-primary-500 text-primary-500': !resource.isNestedSoftDeleted && !hasErrors(index)
+                            'border-primary-500 text-primary-500': !resource.isNestedSoftDeleted && !hasErrors(index),
                         }"
                         class="cursor-default inline-block p-4 border-b-2 font-bold"
                     >
@@ -26,7 +26,7 @@
                             'border-red-500 border-b-2 hover:text-red-500': hasErrors(index),
                             'border-primary-300 text-primary-300 font-bold': resource.isNestedActive,
                             'border-transparent': !resource.isNestedActive,
-                            'hover:text-primary-500': !resource.isNestedSoftDeleted && !hasErrors(index)
+                            'hover:text-primary-500': !resource.isNestedSoftDeleted && !hasErrors(index),
                         }"
                         class="cursor-pointer inline-block p-4 border-b-2"
                     >
@@ -86,6 +86,6 @@
 
         mixins: [EditingResources],
 
-        components: { FormCardNestedResource, CreateActionButton }
+        components: { FormCardNestedResource, CreateActionButton },
     };
 </script>

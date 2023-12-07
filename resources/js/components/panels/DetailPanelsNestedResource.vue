@@ -42,6 +42,6 @@
 
         mixins: [InteractsWithPanels],
 
-        components: { DetailCardNestedResource }
+        components: { DetailCardNestedResource },
     };
 </script>

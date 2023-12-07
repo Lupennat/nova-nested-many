@@ -11,8 +11,8 @@ export default {
         ...mapProps(['viaResourceId', 'viaRelationship', 'relationshipType']),
 
         field: {
-            type: Object
-        }
+            type: Object,
+        },
     },
 
     data: () => ({
@@ -20,7 +20,7 @@ export default {
         loading: true,
         resources: [],
         useTabs: false,
-        collapsedChildren: []
+        collapsedChildren: [],
     }),
 
     created() {
@@ -69,7 +69,6 @@ export default {
             if (!activeFound && this.resources.length > 0) {
                 this.resources[0].isNestedActive = true;
             }
-
         },
 
         decorateResource(resource) {
@@ -78,7 +77,7 @@ export default {
             }
 
             return resource;
-        }
+        },
     },
 
     computed: {
@@ -88,7 +87,7 @@ export default {
             },
             set(value) {
                 this.resources = value.map((resource, index) => this.decorateResource(resource));
-            }
+            },
         },
 
         /**
@@ -148,5 +147,5 @@ export default {
         defaultActive() {
             return (this.field.active || '') + (this.field.activeTitle || '');
         },
-    }
+    },
 };

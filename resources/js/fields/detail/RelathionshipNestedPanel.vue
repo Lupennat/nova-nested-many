@@ -21,7 +21,7 @@
         computed: {
             field() {
                 return this.panel.fields[0];
-            }
-        }
+            },
+        },
     };
 </script>

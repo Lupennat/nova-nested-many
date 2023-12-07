@@ -37,9 +37,9 @@
         props: {
             runningAction: {
                 type: String,
-                required: true
+                required: true,
             },
-            actions: { type: Array }
+            actions: { type: Array },
         },
 
         data: () => ({}),
@@ -51,7 +51,7 @@
 
             shouldShowDropdown() {
                 return this.actions.length > 0;
-            }
-        }
+            },
+        },
     };
 </script>

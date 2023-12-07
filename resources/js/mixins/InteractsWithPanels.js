@@ -5,7 +5,7 @@ export default {
 
     data: () => ({
         highlighted: -1,
-        highlightedTimeout: null
+        highlightedTimeout: null,
     }),
 
     watch: {
@@ -13,7 +13,7 @@ export default {
             if ((val > 1 && val) || oldVal) {
                 this.setHighlightedTimeout();
             }
-        }
+        },
     },
 
     created() {
@@ -59,6 +59,6 @@ export default {
                     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }
-        }
-    }
+        },
+    },
 };

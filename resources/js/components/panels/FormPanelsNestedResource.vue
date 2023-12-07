@@ -5,7 +5,7 @@
                 class="mb-4"
                 :class="{
                     'border-2 border-red-500': hasErrors(index),
-                    'border-2 border-primary-500': !hasErrors(index) && isHighlighted(index)
+                    'border-2 border-primary-500': !hasErrors(index) && isHighlighted(index),
                 }"
             >
                 <Heading
@@ -86,7 +86,7 @@
                     });
                     this.highlighted = val;
                 }
-            }
-        }
+            },
+        },
     };
 </script>
