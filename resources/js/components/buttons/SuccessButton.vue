@@ -10,7 +10,10 @@
 </template>
 
 <script>
+    import BasicButton from '@/components/Buttons/BasicButton';
+
     export default {
+        components: { BasicButton },
         props: {
             size: {
                 type: String,

@@ -33,7 +33,20 @@
 </template>
 
 <script>
+    import Dropdown from '@/components/Dropdowns/Dropdown';
+    import DropdownMenu from '@/components/Dropdowns/DropdownMenu';
+    import DropdownTrigger from '@/components/Dropdowns/DropdownTrigger';
+    import DropdownMenuItem from '@/components/Dropdowns/DropdownMenuItem';
+    import ScrollWrap from '@/components/ScrollWrap';
+
     export default {
+        components: {
+            Dropdown,
+            DropdownMenu,
+            DropdownTrigger,
+            DropdownMenuItem,
+            ScrollWrap,
+        },
         props: {
             runningAction: {
                 type: String,

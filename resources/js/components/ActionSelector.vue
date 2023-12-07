@@ -15,9 +15,11 @@
 </template>
 
 <script>
+    import SelectControl from '@/components/Controls/SelectControl';
+
     export default {
         inheritAttrs: false,
-
+        components: { SelectControl },
         props: {
             width: {
                 type: String,

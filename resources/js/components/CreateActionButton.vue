@@ -13,8 +13,11 @@
     </div>
 </template>
 <script>
+    import LoadingButton from '@/components/Buttons/LoadingButton';
+
     export default {
         emits: ['run-action'],
+        components: { LoadingButton },
         props: {
             actions: { type: Array },
 
