@@ -161,7 +161,7 @@ class Post extends Resource
                 ->options(['sport' => 'Sport', 'news' => 'News'])
                 ->rules('required'),
             Text::title(__('Title'), 'title')
-            ->rules('required'),
+                ->rules('required'),
             $request->getNestedPropagated('name') === 'xxx' ?
                 Text::make(__('Extra Field'), 'extra')->hide() : null
         ]);

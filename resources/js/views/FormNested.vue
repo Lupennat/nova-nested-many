@@ -69,7 +69,7 @@
                         :max-children="maxChildren"
                         :collapsed-children="collapsedChildren"
                         :singular-name="singularName"
-                        :errors="errors"
+                        :errors="nestedErrors"
                         :show-help-text="showHelpText"
                         :has-soft-delete="hasSoftDelete"
                         :primary-key-name="primaryKeyName"
@@ -118,6 +118,7 @@
     import HandlesActions from '../mixins/HandlesActions';
 
     import { HandlesValidationErrors } from 'laravel-nova';
+    import { Errors } from 'form-backend-validation';
 
     export default {
         name: 'ResourceFormNested',
@@ -134,7 +135,14 @@
 
         data: () => ({
             defaultResources: [],
+            nestedErrors: new Errors(),
         }),
+
+        watch: {
+            errors(value) {
+                this.nestedErrors = value;
+            },
+        },
 
         /**
          * Mount the component.
@@ -334,6 +342,7 @@
             },
 
             handleActionResponse(data) {
+                this.nestedErrors = new Errors();
                 HandlesActions.methods.handleActionResponse.call(this, data);
 
                 if (this.selectedAction.basic) {
