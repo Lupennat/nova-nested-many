@@ -53,13 +53,7 @@ export default {
 
             if (ref) {
                 ref = Array.isArray(ref) ? ref[0] : ref;
-                const element = ref
-                    ? ref instanceof HTMLElement
-                        ? ref
-                        : ref.$el instanceof HTMLElement
-                          ? ref.$el
-                          : null
-                    : null;
+                const element = ref instanceof HTMLElement ? ref : ref.$el instanceof HTMLElement ? ref.$el : null;
 
                 if (element) {
                     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
