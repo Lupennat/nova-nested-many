@@ -14,7 +14,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4|^8.0",
-        "laravel/nova": ">=4.22.2 <4.24.0"
+        "laravel/nova": ">=4.22.2 <=4.29.5"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.16"

@@ -1,12 +1,14 @@
 <template>
     <div v-if="shouldShowDropdown">
-        <Dropdown>
+        <Dropdown class="h-9">
             <span class="sr-only">{{ __('Resource Row Dropdown') }}</span>
-            <DropdownTrigger :show-arrow="false">
-                <span class="py-0.5 px-2 rounded">
-                    <Icon :solid="true" type="dots-horizontal" />
-                </span>
-            </DropdownTrigger>
+            <slot name="trigger">
+                <DropdownTrigger :dusk="triggerDuskAttribute" :show-arrow="false">
+                    <BasicButton component="span">
+                        <Icon :solid="true" type="dots-horizontal" />
+                    </BasicButton>
+                </DropdownTrigger>
+            </slot>
 
             <template #menu>
                 <DropdownMenu width="auto" class="px-1">
@@ -14,8 +16,10 @@
                         <div v-if="actions.length > 0" class="py-1">
                             <!-- User Actions -->
                             <DropdownMenuItem
+                                class="border-none"
                                 as="button"
                                 v-for="action in actions"
+                                :data-action-id="action.uriKey"
                                 :key="action.uriKey"
                                 @click="$emit('run-action', action.uriKey)"
                                 :title="action.name"
@@ -33,7 +37,11 @@
 </template>
 
 <script>
+    import BasicButton from '@/components/Buttons/BasicButton';
+    import Dropdown from './Dropdown';
+
     export default {
+        components: { BasicButton, Dropdown },
         props: {
             runningAction: {
                 type: String,
