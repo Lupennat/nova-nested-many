@@ -34,14 +34,14 @@
 
             validationErrors: {
                 type: Object,
-                required: true
-            }
+                required: true,
+            },
         },
 
         computed: {
             field() {
                 return this.panel.fields[0];
-            }
-        }
+            },
+        },
     };
 </script>

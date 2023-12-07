@@ -66,72 +66,72 @@
 
             index: {
                 type: Number,
-                required: true
+                required: true,
             },
 
             resource: {
                 type: Object,
-                required: true
+                required: true,
             },
 
             hiddenFields: {
                 type: Array,
-                required: true
+                required: true,
             },
 
             errors: {
                 type: Object,
-                required: true
+                required: true,
             },
 
             canDelete: {
                 type: Boolean,
-                required: true
+                required: true,
             },
 
             canRestore: {
                 type: Boolean,
-                required: true
+                required: true,
             },
 
             singularName: {
                 type: String,
-                required: true
+                required: true,
             },
 
             hasSoftDelete: {
                 type: Boolean,
-                required: true
+                required: true,
             },
 
             availableActions: {
                 type: Array,
-                required: true
+                required: true,
             },
 
             runningAction: {
                 type: String,
-                required: true
+                required: true,
             },
 
             deleteAction: {
-                required: true
+                required: true,
             },
 
             restoreAction: {
-                required: true
-            }
+                required: true,
+            },
         },
 
         data: () => ({
-            formUniqueId: uid()
+            formUniqueId: uid(),
         }),
 
         mounted() {
             Nova.$emit('resource-loaded', {
                 resourceName: this.resourceName,
                 resourceId: this.resourceId ? this.resourceId.toString() : null,
-                mode: this.editMode
+                mode: this.editMode,
             });
         },
 
@@ -145,7 +145,7 @@
 
             isHidden(field) {
                 return this.hiddenFields.includes(field.attribute);
-            }
+            },
         },
 
         computed: {
@@ -177,7 +177,7 @@
 
             editMode() {
                 return this.resourceId === null ? 'create' : 'update';
-            }
-        }
+            },
+        },
     };
 </script>

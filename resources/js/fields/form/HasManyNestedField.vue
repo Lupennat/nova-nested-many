@@ -36,30 +36,30 @@
                 'resourceId',
                 'viaResource',
                 'viaResourceId',
-                'viaRelationship'
+                'viaRelationship',
             ]),
 
             helpText: {
-                default: null
+                default: null,
             },
 
             field: {
-                type: Object
+                type: Object,
             },
 
             formUniqueId: {
-                type: String
+                type: String,
             },
 
             errors: {
                 type: Object,
-                required: true
+                required: true,
             },
         },
         methods: {
             fill(formData) {
                 this.$refs.nestedForm.fill(formData);
-            }
-        }
+            },
+        },
     };
 </script>

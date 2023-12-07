@@ -25,24 +25,24 @@
         props: {
             index: {
                 type: Number,
-                required: true
+                required: true,
             },
 
             resource: {
                 type: Object,
-                required: true
+                required: true,
             },
 
             hiddenFields: {
                 type: Array,
-                required: true
-            }
+                required: true,
+            },
         },
 
         computed: {
             resourceId() {
                 return this.resource.id?.value ?? null;
-            }
+            },
         },
 
         methods: {
@@ -55,7 +55,7 @@
 
             isHidden(field) {
                 return this.hiddenFields.includes(field.attribute);
-            }
-        }
+            },
+        },
     };
 </script>

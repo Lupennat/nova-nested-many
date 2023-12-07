@@ -73,7 +73,7 @@
         data: () => ({
             canceller: null,
             resourceResponse: null,
-            resourceResponseError: null
+            resourceResponseError: null,
         }),
 
         async created() {
@@ -124,8 +124,8 @@
                                 params: this.resourceRequestQueryString,
                                 cancelToken: new CancelToken(canceller => {
                                     this.canceller = canceller;
-                                })
-                            }
+                                }),
+                            },
                         )
                     ).data;
 
@@ -154,7 +154,7 @@
 
                 Nova.$emit('resources-loaded', {
                     resourceName: this.resourceName,
-                    mode: 'related'
+                    mode: 'related',
                 });
             },
 
@@ -163,7 +163,7 @@
              */
             actionExecuted() {
                 this.$emit('actionExecuted');
-            }
+            },
         },
 
         computed: {
@@ -198,9 +198,9 @@
                     viaRelationship: this.viaRelationship,
                     viaResourceRelationship: this.viaResourceRelationship,
                     relationshipType: this.relationshipType,
-                    ...this.nestedPropagated
+                    ...this.nestedPropagated,
                 };
-            }
-        }
+            },
+        },
     };
 </script>

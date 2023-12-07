@@ -56,8 +56,8 @@
 
         props: {
             collapsedChildren: {
-                default: false
-            }
-        }
+                default: false,
+            },
+        },
     };
 </script>

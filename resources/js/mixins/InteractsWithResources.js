@@ -8,22 +8,22 @@ export default {
     props: {
         resources: {
             type: Array,
-            required: true
+            required: true,
         },
 
         singularName: {
-            type: String
+            type: String,
         },
 
         collapsedChildren: {
             type: Array,
-            required: true
+            required: true,
         },
 
         hiddenFields: {
             type: Array,
-            required: true
-        }
+            required: true,
+        },
     },
 
     methods: {
@@ -48,7 +48,7 @@ export default {
 
         toggleCollapse(index) {
             this.$emit('toggle-collapsed-children', index);
-        }
+        },
     },
 
     computed: {
@@ -61,6 +61,6 @@ export default {
             }
 
             return index;
-        }
-    }
+        },
+    },
 };

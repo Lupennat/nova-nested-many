@@ -7,7 +7,13 @@
                 class="mb-3 md:flex items-center"
             >
                 <div class="flex flex-wrap items-center">
-                    <BasicButton type="button" class="px-0 mr-3" v-if="canChangeViewType" @click="switchViewType" :disabled="loading">
+                    <BasicButton
+                        type="button"
+                        class="px-0 mr-3"
+                        v-if="canChangeViewType"
+                        @click="switchViewType"
+                        :disabled="loading"
+                    >
                         <Icon
                             :type="!isPanelView ? 'view-list' : 'view-grid'"
                             :title="!isPanelView ? 'view as panels' : 'view as tabs'"
@@ -127,7 +133,7 @@
         },
 
         data: () => ({
-            defaultResources: []
+            defaultResources: [],
         }),
 
         /**
@@ -187,7 +193,7 @@
                     await Promise.all([
                         this.getActions(),
                         this.getDefaultResources(),
-                        this.initialLoading ? this.getResources() : this.getUpdatedResources()
+                        this.initialLoading ? this.getResources() : this.getUpdatedResources(),
                     ]);
 
                     if (this.isCreatingParent && (this.decoratedResources.length === 0 || this.overwriteWithDefault)) {
@@ -208,7 +214,7 @@
                     formData,
                     this.field.attribute,
                     this.decoratedResources,
-                    this.primaryKeyName
+                    this.primaryKeyName,
                 );
             },
 
@@ -224,8 +230,8 @@
                         await Nova.request().get('/nova-vendor/nested-many/' + this.resourceName + '/edit-resources', {
                             params: {
                                 ...this.resourceRequestEditQueryString,
-                                ...this.nestedPropagated
-                            }
+                                ...this.nestedPropagated,
+                            },
                         })
                     ).data.resources;
 
@@ -241,7 +247,7 @@
                     'nestedChildren',
                     this.decoratedResources,
                     this.primaryKeyName,
-                    true
+                    true,
                 );
 
                 this.decoratedResources = [];
@@ -252,8 +258,8 @@
                             '/nova-vendor/nested-many/' + this.resourceName + '/update-resources',
                             formData,
                             {
-                                params: this.resourceRequestEditQueryString
-                            }
+                                params: this.resourceRequestEditQueryString,
+                            },
                         )
                     ).data.resources;
                 } catch (error) {
@@ -279,8 +285,8 @@
                             `/nova-vendor/nested-many/${this.resourceName}/default-resources`,
                             formData,
                             {
-                                params: this.resourceRequestEditQueryString
-                            }
+                                params: this.resourceRequestEditQueryString,
+                            },
                         )
                     ).data.resources;
                 } catch (error) {
@@ -334,7 +340,7 @@
                     let index = -1;
                     if (this.selectedResources.length) {
                         index = this.decoratedResources.findIndex(
-                            resource => resource.nestedUid === this.selectedResources[0]
+                            resource => resource.nestedUid === this.selectedResources[0],
                         );
                     }
                     if (index > -1) {
@@ -342,7 +348,11 @@
                             this.replaceResource(index, data.resource);
                         } else {
                             this.removeResource(index);
-                            this.activateResource(index <= this.decoratedResources.length -1 ? index : this.decoratedResources.length -1);
+                            this.activateResource(
+                                index <= this.decoratedResources.length - 1
+                                    ? index
+                                    : this.decoratedResources.length - 1,
+                            );
                         }
                     } else {
                         this.addResource(data.resource);
@@ -350,11 +360,10 @@
                 } else {
                     this.decoratedResources = data.resources;
                 }
-            }
+            },
         },
 
         computed: {
-
             hasHelpText() {
                 return !!this.showHelpText && !!this.field.helpText;
             },
@@ -368,7 +377,7 @@
             },
 
             maxChildren() {
-                return this.field.max
+                return this.field.max;
             },
 
             resolveComponentName() {
@@ -380,7 +389,7 @@
             },
 
             overwriteWithDefault() {
-                return this.field.defaultChildrenOverwrite
+                return this.field.defaultChildrenOverwrite;
             },
 
             isCreatingParent() {
@@ -395,7 +404,7 @@
                 return JSON.stringify({
                     defaultChildren: this.defaultChildren,
                     propagated: this.propagated,
-                    hiddenFields: this.hiddenFields
+                    hiddenFields: this.hiddenFields,
                 });
             },
 
@@ -411,7 +420,7 @@
                     viaResourceRelationship: this.viaResourceRelationship,
                     relationshipType: this.relationshipType,
                 };
-            }
-        }
+            },
+        },
     };
 </script>

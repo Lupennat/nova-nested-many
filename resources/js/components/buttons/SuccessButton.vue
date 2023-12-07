@@ -14,25 +14,25 @@
         props: {
             size: {
                 type: String,
-                default: 'lg'
+                default: 'lg',
             },
 
             align: {
                 type: String,
                 default: 'center',
-                validator: v => ['left', 'center'].includes(v)
+                validator: v => ['left', 'center'].includes(v),
             },
 
             component: {
                 type: String,
-                default: 'button'
-            }
+                default: 'button',
+            },
         },
 
         methods: {
             focus() {
                 this.$refs.button.focus();
-            }
-        }
+            },
+        },
     };
 </script>

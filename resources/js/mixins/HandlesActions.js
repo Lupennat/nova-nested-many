@@ -14,7 +14,7 @@ export default {
         runningActionKey: '',
         actionErrors: new Errors(),
         confirmActionModalOpened: false,
-        selectedResources: []
+        selectedResources: [],
     }),
 
     methods: {
@@ -33,8 +33,8 @@ export default {
                             viaRelationship: this.viaRelationship,
                             viaResourceRelationship: this.viaResourceRelationship,
                             relationshipType: this.relationshipType,
-                            ...this.nestedPropagated
-                        }
+                            ...this.nestedPropagated,
+                        },
                     })
                 ).data;
                 this.actions = data.actions;
@@ -91,13 +91,15 @@ export default {
                 method: 'post',
                 url: `/nova-vendor/nested-many/${this.resourceName}/action`,
                 params: this.actionRequestQueryString,
-                data: this.actionFormData()
+                data: this.actionFormData(),
             })
                 .then(response => {
                     if (!this.keepOpened) {
                         this.confirmActionModalOpened = false;
                     } else if (this.selectedResources.length === 1) {
-                        const found = this.selectedAction.basic ? response.data.resource?.nestedUid == this.selectedResources[0] : response.data.resources.find(resource => resource.nestedUid == this.selectedResources[0]);
+                        const found = this.selectedAction.basic
+                            ? response.data.resource?.nestedUid == this.selectedResources[0]
+                            : response.data.resources.find(resource => resource.nestedUid == this.selectedResources[0]);
                         if (!found) {
                             this.confirmActionModalOpened = false;
                         }
@@ -133,7 +135,7 @@ export default {
                     'nestedChildren',
                     this.resources,
                     this.primaryKeyName,
-                    true
+                    true,
                 ),
                 formData => {
                     if (this.selectedResources.length) {
@@ -143,7 +145,7 @@ export default {
                     _.each(this.selectedAction.fields, field => {
                         field.fill(formData);
                     });
-                }
+                },
             );
         },
 
@@ -163,7 +165,7 @@ export default {
             if (!this.isSelectedActionBasic) {
                 Nova.success('Succesfully executed!');
             }
-        }
+        },
     },
 
     computed: {
@@ -217,7 +219,9 @@ export default {
         },
 
         isSelectedActionBasic() {
-            return [this.addAction.uriKey, this.deleteAction.uriKey, this.restoreAction.uriKey].includes(this.selectedActionKey);
-        }
-    }
+            return [this.addAction.uriKey, this.deleteAction.uriKey, this.restoreAction.uriKey].includes(
+                this.selectedActionKey,
+            );
+        },
+    },
 };

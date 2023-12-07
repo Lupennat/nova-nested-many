@@ -22,7 +22,7 @@
              */
             actionExecuted() {
                 this.$emit('actionExecuted');
-            }
-        }
+            },
+        },
     };
 </script>
