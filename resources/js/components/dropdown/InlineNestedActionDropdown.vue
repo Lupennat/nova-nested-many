@@ -33,7 +33,7 @@
 </template>
 
 <script>
-    import Dropdown from '@/components/Dropdowns/Dropdown';
+    import Dropdown from './Dropdown';
     import DropdownMenu from '@/components/Dropdowns/DropdownMenu';
     import DropdownTrigger from '@/components/Dropdowns/DropdownTrigger';
     import DropdownMenuItem from '@/components/Dropdowns/DropdownMenuItem';
