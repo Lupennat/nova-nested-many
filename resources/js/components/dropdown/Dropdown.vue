@@ -2,9 +2,7 @@
     import Dropdown from '@/components/Dropdowns/Dropdown';
 
     export default {
-        components: {
-            Dropdown,
-        },
+        extends: Dropdown,
         computed: {
             extraClasses() {
                 return ['z-50'];
