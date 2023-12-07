@@ -51,9 +51,10 @@
     </div>
 </template>
 <script>
+    
     import { uid } from 'uid/single';
     import { mapProps } from '@/mixins';
-    import LoadingButton from '@/components/Buttons/LoadingButton';
+    import LoadingButton from '../buttons/LoadingButton';
 
     import InteractsWithResource from '../../mixins/InteractsWithResource';
 
@@ -61,7 +62,7 @@
         emits: ['run-action', 'field-changed', 'file-deleted', 'file-upload-started', 'file-upload-finished'],
 
         mixins: [InteractsWithResource],
-        components: { LoadingButton },
+        components: { Button },
         props: {
             ...mapProps(['showHelpText', 'viaResourceId', 'viaRelationship']),
 
