@@ -32,7 +32,7 @@
             <LoadingButton
                 type="button"
                 :disabled="!!runningAction"
-                component="DangerButton"
+                component="NestedManyDangerButton"
                 @click="$emit('run-action', deleteAction.uriKey, resource)"
                 v-if="autorizedToDelete && !isSoftDeleted"
             >
@@ -54,7 +54,6 @@
     import { uid } from 'uid/single';
     import { mapProps } from '@/mixins';
     import LoadingButton from '@/components/Buttons/LoadingButton';
-    import DangerButton from '@/components/Buttons/DangerButton';
 
     import InteractsWithResource from '../../mixins/InteractsWithResource';
 
@@ -62,7 +61,7 @@
         emits: ['run-action', 'field-changed', 'file-deleted', 'file-upload-started', 'file-upload-finished'],
 
         mixins: [InteractsWithResource],
-        components: { LoadingButton, DangerButton },
+        components: { LoadingButton },
         props: {
             ...mapProps(['showHelpText', 'viaResourceId', 'viaRelationship']),
 

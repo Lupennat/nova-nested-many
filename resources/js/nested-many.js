@@ -9,10 +9,12 @@ import FormNested from './views/FormNested';
 
 import InlineNestedActionDropdown from './components/dropdown/InlineNestedActionDropdown';
 import NestedManySuccessButton from './components/buttons/SuccessButton';
+import NestedManyDangerButton from './components/buttons/DangerButton';
 
 Nova.booting((app, store) => {
     app.component('InlineNestedActionDropdown', InlineNestedActionDropdown);
     app.component('NestedManySuccessButton', NestedManySuccessButton);
+    app.component('NestedManyDangerButton', NestedManyDangerButton);
     app.component('ResourceDetailNested', DetailNested);
     app.component('ResourceFormNested', FormNested);
     app.component('detail-relationship-nested-panel', DetailRelathionshipNestedPanel);
