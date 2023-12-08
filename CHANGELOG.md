@@ -1,3 +1,14 @@
+## v2.0.0
+
+- support nova > 4.29.5
+
+## v1.6.3
+
+### Bug Fix
+
+- reset errors when action triggered
+- locked to nova <4.29.5
+
 ## v1.6.1
 
 ### New

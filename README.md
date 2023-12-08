@@ -4,33 +4,38 @@
 2. [Installation](#Installation)
 3. [Usage](#Usage)
 4. [HasNestedMany Field](#HasNestedMany-field)
-   1. [DependsOn](#depends-on)
-   2. [Propagate](#propagate)
-   3. [Default Children](#default-children)
-   4. [Additional options](#additional-options)
-   5. [Hooks](#hooks)
+    1. [DependsOn](#depends-on)
+    2. [Propagate](#propagate)
+    3. [Default Children](#default-children)
+    4. [Additional options](#additional-options)
+    5. [Hooks](#hooks)
 5. [Nestable Resource](#nestable-resource)
-   1. [Nestable Title](#nestable-title)
-   2. [Nestable Authorization](#nestable-authorization)
-   3. [Nestable Actions](#nestable-actions)
-      1. [Nestable Basic Actions](#nestable-basic-actions)
-      2. [Nestable Soft Delete Action](#Nestable-soft-delete-action)
-      3. [Nestable Custom Actions](#nestable-custom-actions)
-      4. [Difference With Nova Actions](#difference-with-nova-actions)
-      5. [Nested Object](#nested-object)
+    1. [Nestable Title](#nestable-title)
+    2. [Nestable Authorization](#nestable-authorization)
+    3. [Nestable Actions](#nestable-actions)
+        1. [Nestable Basic Actions](#nestable-basic-actions)
+        2. [Nestable Soft Delete Action](#Nestable-soft-delete-action)
+        3. [Nestable Custom Actions](#nestable-custom-actions)
+        4. [Difference With Nova Actions](#difference-with-nova-actions)
+        5. [Nested Object](#nested-object)
 6. [Changelog](CHANGELOG.md)
 7. [Credits](#credits)
 
 ## Requirements
 
-- `php: ^7.4 | ^8`
-- `laravel/nova: ^4`
+-   `php: ^7.4 | ^8`
+-   `laravel/nova: ^4`
 
 ## Installation
 
 ```
-composer require lupennat/nova-nested-many
+composer require lupennat/nova-nested-many:^2.0
 ```
+
+| NOVA    | PACKAGE |
+| ------- | ------- |
+| <4.29.5 | 1.x     |
+| >4.29.6 | 2.x     |
 
 ## Usage
 
