@@ -81,9 +81,15 @@ trait NestedStorable
                 ->reject(function ($field) {
                     return empty($field->name);
                 })
-                ->reduce(function ($carry, $field) use ($childrenCount) {
+                ->reduce(function ($carry, $field) use ($childrenCount, $request) {
                     foreach (range(0, $childrenCount - 1) as $i) {
-                        $carry["{$this->attribute}.{$i}.{$field->attribute}"] = $field->name;
+                        if ($field instanceof HasManyNested) {
+                            foreach ($field->getValidationAttributeNamesFromParent($request, $this->resourceName, $this->attribute, $i) as $attribute => $name) {
+                                $carry["{$this->attribute}.{$i}.{$attribute}"] = $name;
+                            }
+                        } else {
+                            $carry["{$this->attribute}.{$i}.{$field->attribute}"] = $field->name;
+                        }
                     }
 
                     return $carry;
@@ -153,15 +159,19 @@ trait NestedStorable
         return $resource->creationFields($request)
             ->reject($this->rejectRecursiveRelatedResourceFields($request))
             ->applyDependsOn($request)
-            ->mapWithKeys(function ($field) use ($request) {
+            ->mapWithKeys(function ($field) use ($request, $index) {
+                if ($field instanceof HasManyNested) {
+                    return $field->getCreationRulesFromParent($request, $this->resourceName, $this->attribute, $index);
+                }
+
                 return $field->getCreationRules($request);
             })
-            ->mapWithKeys(function ($field, $attribute) use ($replacements, $index) {
+            ->mapWithKeys(function ($rules, $attribute) use ($replacements, $index) {
                 if ($this->nullable === true) {
                     array_push($field, 'sometimes');
                 }
 
-                return ["{$this->attribute}.{$index}.{$attribute}" => collect($field)->transform(function ($rule) use ($replacements) {
+                return ["{$this->attribute}.{$index}.{$attribute}" => collect($rules)->transform(function ($rule) use ($replacements) {
                     if (empty($replacements)) {
                         return $rule;
                     }
@@ -193,7 +203,11 @@ trait NestedStorable
         return $resource->updateFields($request)
             ->reject($this->rejectRecursiveRelatedResourceFields($request))
             ->applyDependsOn($request)
-            ->mapWithKeys(function ($field) use ($request) {
+            ->mapWithKeys(function ($field) use ($request, $index) {
+                if ($field instanceof HasManyNested) {
+                    return $field->getUpdateRulesFromParent($request, $this->resourceName, $this->attribute, $index);
+                }
+
                 return $field->getUpdateRules($request);
             })
             ->mapWithKeys(function ($field, $attribute) use ($replacements, $index) {

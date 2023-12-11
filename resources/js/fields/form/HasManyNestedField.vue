@@ -57,8 +57,8 @@
             },
         },
         methods: {
-            fill(formData) {
-                this.$refs.nestedForm.fill(formData);
+            fill(formData, withDelete = false) {
+                this.$refs.nestedForm.fill(formData, withDelete);
             },
         },
     };
