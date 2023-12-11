@@ -28,7 +28,7 @@ class NestedResponse
             return $this;
         }
 
-        $this->results['resource'] = $this->generateResourceFromNested($nested, $request->resource(), $request);
+        $this->results['resource'] = $this->generateResourceFromNested($nested, $request->resource(), $request, 0);
 
         return $this;
     }
