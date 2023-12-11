@@ -13,7 +13,7 @@
             :field="field"
             :resource="resource"
             :via-resource="viaResource"
-            :via-resource-id="viaResourceId"
+            :via-resource-id="adaptedViaResourceId(field)"
             :via-relationship="viaRelationship"
             :form-unique-id="formUniqueId"
             :show-help-text="showHelpText"
@@ -174,6 +174,10 @@
 
             resourceId() {
                 return this.resource.id?.value ?? null;
+            },
+
+            adaptedViaResourceId(field) {
+                field.component === 'has-many-nested-field' ? this.viaResourceId || 0 : this.viaResourceId;
             },
 
             editMode() {

@@ -1,5 +1,5 @@
 <template>
-    <LoadingView :loading="initialLoading">
+    <LoadingView class="nested-many-detail -mx-6 px-6" :loading="initialLoading">
         <div>
             <Heading :level="1" class="mb-3 flex items-center">
                 <BasicButton type="button" class="px-0 mr-3" v-if="canChangeViewType" @click="switchViewType">

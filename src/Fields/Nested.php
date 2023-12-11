@@ -9,7 +9,6 @@ use Laravel\Nova\Fields\Collapsable;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Fields\SupportsDependentFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Http\Requests\ResourceCreateOrAttachRequest;
 use Laravel\Nova\Panel;
 use Lupennat\NestedMany\Exceptions\NotNestableModelException;
 use Lupennat\NestedMany\Models\Contracts\Nestable;
@@ -71,19 +70,18 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
     public bool $lock = false;
 
     /**
-     * Min children
+     * Min children.
      *
-     * @var null|int
+     * @var int|null
      */
-    public $min = null;
+    public $min;
 
     /**
-     * Max children
+     * Max children.
      *
-     * @var null|int
+     * @var int|null
      */
-    public $max = null;
-
+    public $max;
 
     /**
      * Make current field behaves as panel.
@@ -143,7 +141,7 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
      *
      * @return $this
      */
-    public function activeTitle(string|int|null $activeTitle = null)
+    public function activeTitle(string|int $activeTitle = null)
     {
         $this->activeTitle = $activeTitle;
 
@@ -195,7 +193,6 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
         return $this;
     }
 
-
     /**
      * Lock Add/Remove Children.
      *
@@ -209,12 +206,12 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
     }
 
     /**
-    * set min children
-    *
-    * @param int|null $min
-    *
-    * @return $this
-    */
+     * set min children.
+     *
+     * @param int|null $min
+     *
+     * @return $this
+     */
     public function min($min = null)
     {
         $this->min = $min;
@@ -223,7 +220,7 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
     }
 
     /**
-     * set max children
+     * set max children.
      *
      * @param int|null $max
      *
@@ -306,7 +303,7 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
                 'lock' => $this->lock,
                 'min' => $this->min,
                 'max' => $this->max,
-                'mode' => $request instanceof ResourceCreateOrAttachRequest ? 'create' : 'update',
+                'mode' => $request->isCreateOrAttachRequest() ? 'create' : 'update',
                 'useTabs' => $this->useTabs,
                 'propagated' => $this->propagated,
             ], parent::jsonSerialize());

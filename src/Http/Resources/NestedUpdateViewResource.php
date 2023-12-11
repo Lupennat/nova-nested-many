@@ -18,15 +18,15 @@ class NestedUpdateViewResource extends Resource
         $resourceClass = $request->resource();
 
         return [
-            'resources' => collect($request->nestedChildren())->mapInto($resourceClass)->map(function ($resource) use ($request) {
+            'resources' => collect($request->nestedChildren())->mapInto($resourceClass)->map(function ($resource, $index) use ($request) {
                 $request['editing'] = 'true';
                 $request['editMode'] = !$resource->resource->exists && !$resource->resource->isNestedDefault() ? 'create' : 'update';
 
                 // readonly is resolved using app request on jsonserialize
                 // we need to serialize for each element that way editMode is preserved
                 return json_decode(json_encode(!$resource->resource->exists && !$resource->resource->isNestedDefault() ?
-                $resource->serializeForNestedCreate($request) :
-                $resource->serializeForNestedUpdate($request)), true);
+                $resource->serializeForNestedCreate($request, $index) :
+                $resource->serializeForNestedUpdate($request, $index)), true);
             }),
         ];
     }

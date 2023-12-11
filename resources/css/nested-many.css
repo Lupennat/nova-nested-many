@@ -37,3 +37,15 @@
 .nested-many-container .text-primary-300 {
     color: rgba(var(--colors-primary-300));
 }
+
+.nested-many-form .nested-many-form {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.nested-many-detail .nested-many-detail {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}

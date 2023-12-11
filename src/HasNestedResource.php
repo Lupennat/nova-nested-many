@@ -11,6 +11,7 @@ use Lupennat\NestedMany\Actions\Basics\NestedBasicAction;
 use Lupennat\NestedMany\Actions\Basics\NestedBasicAddAction;
 use Lupennat\NestedMany\Actions\Basics\NestedBasicDeleteAction;
 use Lupennat\NestedMany\Actions\Basics\NestedBasicRestoreAction;
+use Lupennat\NestedMany\Fields\HasManyNested;
 
 /**
  * @template TValidationRule of \Stringable|string|\Illuminate\Contracts\Validation\Rule|\Illuminate\Contracts\Validation\InvokableRule|callable>|\Stringable|string|((callable(string, mixed, \Closure):(void))
@@ -250,14 +251,16 @@ trait HasNestedResource
      *
      * @return array<string, mixed>
      */
-    public function serializeForNestedUpdate(NovaRequest $request)
+    public function serializeForNestedUpdate(NovaRequest $request, $index)
     {
         request()->setMethod('GET');
+
         return array_merge(
             $this->serializeWithId(
-                $this->changeFieldReadonly(
+                $this->adaptFieldForNestedMany(
                     $this->updateFieldsWithinPanels($request, $this)->applyDependsOnWithDefaultValues($request),
-                    $request
+                    $request,
+                    $index
                 )->values()
             ),
             [
@@ -278,14 +281,16 @@ trait HasNestedResource
      *
      * @return array<string, mixed>
      */
-    public function serializeForNestedCreate(NovaRequest $request)
+    public function serializeForNestedCreate(NovaRequest $request, $index)
     {
         request()->setMethod('GET');
+
         return array_merge(
             $this->serializeWithId(
-                $this->changeFieldReadonly(
+                $this->adaptFieldForNestedMany(
                     $this->creationFieldsWithinPanels($request, $this)->applyDependsOnWithDefaultValues($request),
                     $request,
+                    $index,
                     false
                 )->values()
             ),
@@ -345,8 +350,8 @@ trait HasNestedResource
     {
         return $fields->reject(function ($field) use ($request) {
             if (
-                (($field instanceof BelongsTo || $field instanceof BelongsToMany) && $field->resourceName === $request->viaResource) ||
-                ($field instanceof MorphTo && collect($field->morphToTypes)->pluck('value')->contains($request->viaResource))
+                (($field instanceof BelongsTo || $field instanceof BelongsToMany) && $field->resourceName === $request->viaResource)
+                || ($field instanceof MorphTo && collect($field->morphToTypes)->pluck('value')->contains($request->viaResource))
             ) {
                 return true;
             }
@@ -362,14 +367,21 @@ trait HasNestedResource
      *
      * @return \Laravel\Nova\Fields\FieldCollection<int, \Laravel\Nova\Fields\Field>
      */
-    protected function changeFieldReadonly($fields, NovaRequest $request, $checkCanUpdate = true)
+    protected function adaptFieldForNestedMany($fields, NovaRequest $request, $index, $checkCanUpdate = true)
     {
         $fields = $this->rejectNestedRelatedField($fields, $request);
 
-        if (($checkCanUpdate && !$this->authorizedToUpdateNested($request)) || $this->resource->isNestedSoftDeleted()) {
-            return $fields->map(fn ($field) => $field->readonly(true));
-        }
+        return $fields->map(function ($field) use ($checkCanUpdate, $request, $index) {
+            if ($field instanceof HasManyNested) {
+                $currentNested = is_array($request->nestedChildren) ? $request->nestedChildren : [];
+                $field->value = $currentNested[$index][$field->validationKey()];
+            } else {
+                if (($checkCanUpdate && !$this->authorizedToUpdateNested($request)) || $this->resource->isNestedSoftDeleted()) {
+                    return $field->readonly(true);
+                }
+            }
 
-        return $fields;
+            return $field;
+        });
     }
 }

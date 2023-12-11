@@ -1,5 +1,5 @@
 <template>
-    <LoadingView :loading="initialLoading" v-show="isVisible">
+    <LoadingView class="nested-many-form" :loading="initialLoading" v-show="isVisible">
         <div>
             <Heading
                 :level="1"

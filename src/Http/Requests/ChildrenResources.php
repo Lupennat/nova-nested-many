@@ -33,8 +33,6 @@ trait ChildrenResources
 
             $children = static::getNestedChildrenModelAttributes($this, 'nestedChildren', $resourceClass);
 
-            unset($this['nestedChildren']);
-
             foreach ($children as $child) {
                 $this->nestedChildrenResources[] = $this->getModel($resourceClass, $child);
             }
@@ -78,6 +76,8 @@ trait ChildrenResources
         $childRequest = $child['model']->exists ?
         NestedResourceUpdateOrUpdateAttachedRequest::createFrom($this) :
         NestedResourceCreateOrAttachRequest::createFrom($this);
+
+        unset($childRequest['nestedChildren']);
 
         foreach ($child['attributes'] as $key => $value) {
             $childRequest[$key] = $value;
