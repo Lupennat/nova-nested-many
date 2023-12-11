@@ -227,11 +227,11 @@
             },
 
             async getResources() {
-                this.decoratedResources = [];
-
                 if (this.isCreatingParent) {
                     return;
                 }
+
+                this.decoratedResources = [];
 
                 try {
                     this.decoratedResources = (

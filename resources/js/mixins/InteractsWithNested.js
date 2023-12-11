@@ -25,7 +25,7 @@ export default {
 
     created() {
         this.useTabs = this.field.useTabs;
-        this.resources = this.field.value || [];
+        this.decoratedResources = this.field.resources || [];
     },
 
     methods: {

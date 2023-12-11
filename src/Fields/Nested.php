@@ -84,6 +84,11 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
     public $max;
 
     /**
+     * The field's preloaded resources.
+     */
+    public $resources = [];
+
+    /**
      * Make current field behaves as panel.
      *
      * @return \Laravel\Nova\Panel
@@ -306,6 +311,7 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
                 'mode' => $request->isCreateOrAttachRequest() ? 'create' : 'update',
                 'useTabs' => $this->useTabs,
                 'propagated' => $this->propagated,
+                'resources' => $this->resources,
             ], parent::jsonSerialize());
         });
     }
