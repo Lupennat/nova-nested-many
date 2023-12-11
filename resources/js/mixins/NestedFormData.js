@@ -76,7 +76,11 @@ export default {
                         resourceForm.append('nestedUid', resource.nestedUid);
 
                         _.each(resource.fields, field => {
-                            field.fill(resourceForm);
+                            if (field.component === 'has-many-nested-field') {
+                                field.fill(resourceForm, withDeleted);
+                            } else {
+                                field.fill(resourceForm);
+                            }
                         });
 
                         formIndex++;

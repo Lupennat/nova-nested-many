@@ -73,7 +73,7 @@ trait NestedStorable
 
         $attributeNames = parent::getValidationAttributeNames($request);
 
-        $childrenCount = static::countNestedChildren($request, $this->attribute);
+        $childrenCount = static::countNestedChildren($request, $this->attribute, $this->resourceClass);
 
         if ($childrenCount) {
             $attributeNames = array_merge($attributeNames, $resource
@@ -250,7 +250,6 @@ trait NestedStorable
                 $this->fillInto($request, $model, $attribute, $requestAttribute);
             });
         } else {
-
             if (is_callable($this->beforeFillCallback)) {
                 call_user_func($this->beforeFillCallback, $model, $request);
             }

@@ -217,12 +217,13 @@
                 }
             },
 
-            fill(formData) {
+            fill(formData, withDelete = false) {
                 this.generateResourcesFormData(
                     formData,
                     this.field.attribute,
                     this.decoratedResources,
                     this.primaryKeyName,
+                    withDelete,
                 );
             },
 
@@ -302,19 +303,6 @@
                 }
             },
 
-            /**
-             * update the form data for the resource.
-             */
-            updateFormData(formData, resource) {
-                return _.tap(formData, formData => {
-                    _.each(resource.fields, field => {
-                        if (field.attribute !== this.primaryKeyName) {
-                            field.fill(formData);
-                        }
-                    });
-                });
-            },
-
             addResource(resource) {
                 this.resources.push(this.decorateResource(resource));
             },
@@ -325,10 +313,6 @@
 
             replaceResource(index, resource) {
                 this.resources.splice(index, 1, this.decorateResource(resource));
-            },
-
-            updateSoftDeleteResource(index, status) {
-                this.resources[index].isNestedSoftDeleted = status;
             },
 
             getResource(index) {

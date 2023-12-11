@@ -373,8 +373,7 @@ trait HasNestedResource
 
         return $fields->map(function ($field) use ($checkCanUpdate, $request, $index) {
             if ($field instanceof HasManyNested) {
-                $currentNested = is_array($request->nestedChildren) ? $request->nestedChildren : [];
-                $field->resources = $currentNested[$index][$field->validationKey()] ?? [];
+                $field->generateResourcesFromParent($request, $index);
             } else {
                 if (($checkCanUpdate && !$this->authorizedToUpdateNested($request)) || $this->resource->isNestedSoftDeleted()) {
                     return $field->readonly(true);

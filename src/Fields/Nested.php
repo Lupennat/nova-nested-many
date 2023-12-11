@@ -19,6 +19,7 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
     use Collapsable;
     use NestedPropagable;
     use NestedStorable;
+    use NestedRecursive;
 
     /**
      * Determines whether the children should be collapsed by default.
@@ -82,11 +83,6 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
      * @var int|null
      */
     public $max;
-
-    /**
-     * The field's preloaded resources.
-     */
-    public $resources = [];
 
     /**
      * Make current field behaves as panel.

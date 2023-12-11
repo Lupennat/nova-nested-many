@@ -1,7 +1,8 @@
 <template>
     <div class="nested-many-container">
         <component
-            :key="`${field.attribute}:${resourceId}`"
+            :key="`${field.attribute}:${formUniqueId}`"
+            :form-unique-id="formUniqueId"
             :is="`form-${field.component}`"
             :errors="validationErrors"
             :resource-name="resourceName"
@@ -31,6 +32,10 @@
 
         props: {
             ...mapProps(['showHelpText', 'mode']),
+
+            formUniqueId: {
+                type: String,
+            },
 
             validationErrors: {
                 type: Object,

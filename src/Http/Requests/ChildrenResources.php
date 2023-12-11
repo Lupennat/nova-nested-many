@@ -10,14 +10,9 @@ trait ChildrenResources
     use NestedChildrenable;
 
     /**
-     * @var array<\Lupennat\NestedMany\Models\Contracts\Nestable>|null
+     * @var array<int,\Lupennat\NestedMany\Models\Contracts\Nestable>|null
      */
     protected $nestedChildrenResources;
-
-    /**
-     * @var array<\Lupennat\NestedMany\Models\Contracts\Nestable>|null
-     */
-    protected $nestedResource;
 
     /**
      * Get all children models.

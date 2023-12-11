@@ -14,15 +14,18 @@ trait NestedChildrenable
     /**
      * Get nested children from request.
      *
-     * @return array<int,array<string,mixed>>
+     * @return array<string,<array<int,array<string,mixed>>
      */
-    private static function nestedChildrenFromRequest(NovaRequest $request, string $attribute): array
+    private static function nestedChildrenFromRequest(NovaRequest $request, string $attribute, string $resourceClass): array
     {
-        if (!array_key_exists($attribute, static::$nestedChildrenFromRequest)) {
-            static::$nestedChildrenFromRequest[$attribute] = is_array($request->{$attribute}) ? $request->{$attribute} : [];
+        if (!array_key_exists($resourceClass, static::$nestedChildrenFromRequest)) {
+            static::$nestedChildrenFromRequest[$resourceClass] = [];
+            if (!array_key_exists($attribute, static::$nestedChildrenFromRequest[$resourceClass])) {
+                static::$nestedChildrenFromRequest[$resourceClass][$attribute] = is_array($request->{$attribute}) ? $request->{$attribute} : [];
+            }
         }
 
-        return static::$nestedChildrenFromRequest[$attribute];
+        return static::$nestedChildrenFromRequest[$resourceClass][$attribute];
     }
 
     /**
@@ -34,7 +37,7 @@ trait NestedChildrenable
      */
     public static function getNestedChildrenModelAttributes(NovaRequest $request, string $attribute, string $resourceClass)
     {
-        $children = static::nestedChildrenFromRequest($request, $attribute);
+        $children = static::nestedChildrenFromRequest($request, $attribute, $resourceClass);
 
         $nestedChildrenResources = [];
 
@@ -71,8 +74,8 @@ trait NestedChildrenable
     /**
      * Count nested children.
      */
-    public static function countNestedChildren(NovaRequest $request, string $attribute): int
+    public static function countNestedChildren(NovaRequest $request, string $attribute, string $resourceClass): int
     {
-        return count(static::nestedChildrenFromRequest($request, $attribute));
+        return count(static::nestedChildrenFromRequest($request, $attribute, $resourceClass));
     }
 }
