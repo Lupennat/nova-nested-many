@@ -1,11 +1,15 @@
 <template>
     <div v-if="shouldShowDropdown">
         <Dropdown class="h-9">
+            <span class="sr-only">{{ __('Resource Row Dropdown') }}</span>
             <slot name="trigger">
-                <BasicButton component="span">
-                    <Icon :solid="true" type="dots-horizontal" />
-                </BasicButton>
+                <DropdownTrigger :dusk="triggerDuskAttribute" :show-arrow="false">
+                    <BasicButton component="span">
+                        <Icon :solid="true" type="dots-horizontal" />
+                    </BasicButton>
+                </DropdownTrigger>
             </slot>
+
             <template #menu>
                 <DropdownMenu width="auto" class="px-1">
                     <ScrollWrap :height="250" class="divide-y divide-gray-100 dark:divide-gray-800 divide-solid">
@@ -34,9 +38,10 @@
 
 <script>
     import BasicButton from '@/components/Buttons/BasicButton';
+    import Dropdown from './Dropdown';
 
     export default {
-        components: { BasicButton },
+        components: { BasicButton, Dropdown },
         props: {
             runningAction: {
                 type: String,

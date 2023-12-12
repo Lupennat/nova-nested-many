@@ -13,7 +13,7 @@
     </div>
 </template>
 <script>
-    import LoadingButton from './buttons/LoadingButton';
+    import LoadingButton from '@/components/Buttons/LoadingButton';
 
     export default {
         emits: ['run-action'],

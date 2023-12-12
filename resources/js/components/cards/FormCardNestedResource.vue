@@ -53,7 +53,7 @@
 <script>
     import { uid } from 'uid/single';
     import { mapProps } from '@/mixins';
-    import LoadingButton from '../buttons/LoadingButton';
+    import LoadingButton from '@/components/Buttons/LoadingButton';
 
     import InteractsWithResource from '../../mixins/InteractsWithResource';
 
