@@ -49,8 +49,6 @@
             <p v-if="hasHelpText" class="text-gray-500 text-sm font-semibold italic mb-3" v-html="field.helpText"></p>
             <p v-if="firstError" class="help-text-error mb-3">{{ firstError }}</p>
 
-            <div class="flex"></div>
-
             <div>
                 <LoadingView :loading="loading">
                     <component

@@ -31,20 +31,19 @@
                             @click="getResources"
                         />
 
-                        <template v-else>
-                            <component
-                                :is="resolveComponentName"
-                                :hidden-fields="hiddenFields"
-                                :resources="resources"
-                                :resource-name="resourceName"
-                                :via-resource="viaResource"
-                                :collapsed-children="collapsedChildren"
-                                :singular-name="singularName"
-                                @activate-resource="activateResource"
-                                @toggle-collapsed-children="toggleCollapsedChildren"
-                                @actionExecuted="actionExecuted"
-                            />
-                        </template>
+                        <component
+                            v-else
+                            :is="resolveComponentName"
+                            :hidden-fields="hiddenFields"
+                            :resources="resources"
+                            :resource-name="resourceName"
+                            :via-resource="viaResource"
+                            :collapsed-children="collapsedChildren"
+                            :singular-name="singularName"
+                            @activate-resource="activateResource"
+                            @toggle-collapsed-children="toggleCollapsedChildren"
+                            @actionExecuted="actionExecuted"
+                        />
                     </LoadingView>
                 </div>
             </template>

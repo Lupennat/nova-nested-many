@@ -24,35 +24,38 @@
                 </li>
             </ul>
         </div>
-
-        <div
-            class="mb-4"
-            v-for="(resource, index) in resources"
-            v-show="lastActiveIndex === index"
-            :key="uniqueResourceKey(resource)"
-        >
-            <DetailCardNestedResource
-                :index="index"
-                :hidden-fields="hiddenFields"
-                :resource="resource"
-                :resource-name="resourceName"
-                :via-resource="viaResource"
-                @actionExecuted="$emit('actionExecuted')"
-            />
-        </div>
+        <EmptyCardNestedResource v-if="!resources.length" :singular-name="singularName" />
+        <template v-else>
+            <div
+                class="mb-4"
+                v-for="(resource, index) in resources"
+                v-show="lastActiveIndex === index"
+                :key="uniqueResourceKey(resource)"
+            >
+                <DetailCardNestedResource
+                    :index="index"
+                    :hidden-fields="hiddenFields"
+                    :resource="resource"
+                    :resource-name="resourceName"
+                    :via-resource="viaResource"
+                    @actionExecuted="$emit('actionExecuted')"
+                />
+            </div>
+        </template>
     </Card>
 </template>
 <script>
     import InteractsWithResources from '../../mixins/InteractsWithResources';
 
     import DetailCardNestedResource from '../cards/DetailCardNestedResource';
+    import EmptyCardNestedResource from '../cards/EmptyCardNestedResource';
 
     export default {
         emits: ['actionExecuted'],
 
         mixins: [InteractsWithResources],
 
-        components: { DetailCardNestedResource },
+        components: { DetailCardNestedResource, EmptyCardNestedResource },
 
         props: {
             collapsedChildren: {

@@ -42,43 +42,46 @@
                 @run-action="$emit('run-action', $event)"
             />
         </div>
-
-        <div
-            class="mb-4"
-            v-for="(resource, index) in resources"
-            v-show="lastActiveIndex === index"
-            :key="uniqueResourceKey(resource)"
-        >
-            <FormCardNestedResource
-                :index="index"
-                :errors="getResourceErrors(index)"
-                :hidden-fields="hiddenFields"
-                :resource="resource"
-                :resource-name="resourceName"
-                :via-resource="viaResource"
-                :via-resource-id="viaResourceId"
-                :via-relationship="viaRelationship"
-                :show-help-text="showHelpText"
-                :can-delete="canDelete"
-                :can-restore="canRestore"
-                :singular-name="singularName"
-                :has-soft-delete="hasSoftDelete"
-                :available-actions="availableActions"
-                :running-action="runningAction"
-                :delete-action="deleteAction"
-                :restore-action="restoreAction"
-                @run-action="$emit('run-action', $event, resource)"
-                @field-changed="$emit('field-changed')"
-                @file-deleted="$emit('file-deleted')"
-                @file-upload-started="$emit('file-upload-started')"
-                @file-upload-finished="$emit('file-upload-finished')"
-            />
-        </div>
+        <EmptyCardNestedResource v-if="!resources.length" :singular-name="singularName" />
+        <template v-else>
+            <div
+                class="mb-4"
+                v-for="(resource, index) in resources"
+                v-show="lastActiveIndex === index"
+                :key="uniqueResourceKey(resource)"
+            >
+                <FormCardNestedResource
+                    :index="index"
+                    :errors="getResourceErrors(index)"
+                    :hidden-fields="hiddenFields"
+                    :resource="resource"
+                    :resource-name="resourceName"
+                    :via-resource="viaResource"
+                    :via-resource-id="viaResourceId"
+                    :via-relationship="viaRelationship"
+                    :show-help-text="showHelpText"
+                    :can-delete="canDelete"
+                    :can-restore="canRestore"
+                    :singular-name="singularName"
+                    :has-soft-delete="hasSoftDelete"
+                    :available-actions="availableActions"
+                    :running-action="runningAction"
+                    :delete-action="deleteAction"
+                    :restore-action="restoreAction"
+                    @run-action="$emit('run-action', $event, resource)"
+                    @field-changed="$emit('field-changed')"
+                    @file-deleted="$emit('file-deleted')"
+                    @file-upload-started="$emit('file-upload-started')"
+                    @file-upload-finished="$emit('file-upload-finished')"
+                />
+            </div>
+        </template>
     </Card>
 </template>
 <script>
     import EditingResources from '../../mixins/EditingResources';
     import FormCardNestedResource from '../cards/FormCardNestedResource';
+    import EmptyCardNestedResource from '../cards/EmptyCardNestedResource';
     import CreateActionButton from '../CreateActionButton';
 
     export default {
@@ -86,6 +89,6 @@
 
         mixins: [EditingResources],
 
-        components: { FormCardNestedResource, CreateActionButton },
+        components: { EmptyCardNestedResource, FormCardNestedResource, CreateActionButton },
     };
 </script>
