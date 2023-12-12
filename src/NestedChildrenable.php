@@ -7,14 +7,14 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 trait NestedChildrenable
 {
     /**
-     * @var array<string,<int,array<string,mixed>>>
+     * @var array<string,array<string,<int,array<string,mixed>>>>
      */
     private static $nestedChildrenFromRequest = [];
 
     /**
      * Get nested children from request.
      *
-     * @return array<string,<array<int,array<string,mixed>>
+     * @return array<int,array<string,mixed>>
      */
     private static function nestedChildrenFromRequest(NovaRequest $request, string $attribute, string $resourceClass): array
     {
