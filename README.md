@@ -18,8 +18,9 @@
         3. [Nestable Custom Actions](#nestable-custom-actions)
         4. [Difference With Nova Actions](#difference-with-nova-actions)
         5. [Nested Object](#nested-object)
-6. [Changelog](CHANGELOG.md)
-7. [Credits](#credits)
+6. [Recursivity](#recursivity)
+7. [Changelog](CHANGELOG.md)
+8. [Credits](#credits)
 
 ## Requirements
 
@@ -494,6 +495,51 @@ It expose convinient methods to manipulate object without executing queries agai
 > if Mutators are registered, they will be executed.
 
 > Every change executed on Nested Object will not be stored on database until the user click the Create/Update button on the Parent Form Page.
+
+## Recursivity
+
+`HasManyNested` supports recursivity however, it is important to keep in mind that the deletion of a "parent" resource is not recursive to its "children".
+
+Ex. parent resource -> nested resourceA -> nested resourceB
+
+by deleting a nested resource A the nested resources B are not automatically deleted from the database.
+
+You can solve this problem by directly using observers for the delete event on eloquent models.
+
+```php
+class Parent extends Model {
+    protected static function booted(): void
+    {
+        static::deleted(function (Parent $model) {
+            // to propagate event we need to call ->delete() within the model
+            foreach ($model->childrenItemA as $childItemA) {
+                $childItemA->delete();
+            }
+        });
+    }
+
+    public childrenItemA() {
+        return $this->hasMany(ItemA::class);
+    }
+}
+
+class ItemA extends Model {
+
+    protected static function booted(): void {
+        static::deleted(function (ItemA $model) {
+            // we can avoid loop we don't need to propagate event
+           $model->childrenItemB()->delete()
+        });
+    }
+
+    public childrenItemB() {
+        return $this->hasMany(ItemB::class);
+    }
+}
+
+class ItemB extends Model {
+}
+```
 
 ---
 
