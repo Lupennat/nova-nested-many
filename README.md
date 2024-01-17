@@ -142,6 +142,10 @@ HasNestedMany::make('Posts', Post::class)
 
 ```php
 HasNestedMany::make('Posts', Post::class)->propagate(['name'])
+
+// you can also propagate custom key/value to related resource.
+HasNestedMany::make('Posts', Post::class)->propagate(['not_a_field' => 'test'])
+
 ```
 
 On related resource propagated fields can be retrieved through `getNestedPropagated` method on Request

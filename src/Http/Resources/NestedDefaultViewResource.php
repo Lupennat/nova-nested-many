@@ -17,7 +17,11 @@ class NestedDefaultViewResource extends Resource
     {
         $resourceClass = $request->resource();
 
-        $resourceClass::authorizeToCreate($request);
+        if (!$resourceClass::authorizedToCreateNested($request)) {
+            return [
+                'resources' => [],
+            ];
+        }
 
         $request['editing'] = 'true';
         $request['editMode'] = 'update';
