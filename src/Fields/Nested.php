@@ -304,7 +304,7 @@ abstract class Nested extends Field implements BehavesAsPanel, RelatableField
                 'lock' => $this->lock,
                 'min' => $this->min,
                 'max' => $this->max,
-                'mode' => $request->isCreateOrAttachRequest() ? 'create' : 'update',
+                'mode' => $request->isCreateOrAttachRequest() || $request['isNestedFromDefault'] ? 'create' : 'update',
                 'useTabs' => $this->useTabs,
                 'propagated' => $this->propagated,
                 'resources' => $this->resources,
