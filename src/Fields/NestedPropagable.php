@@ -30,19 +30,29 @@ trait NestedPropagable
     /**
      * Register propagate a field.
      *
-     * @param string|\Laravel\Nova\Fields\Field|array<int, string|\Laravel\Nova\Fields\Field> $attributes
+     * @param string|\Laravel\Nova\Fields\Field|array<int, string|\Laravel\Nova\Fields\Field>|array<string, mixed> $attributes
      *
      * @return $this
      */
     public function propagate($attributes)
     {
-        $this->propagateDependencies = collect(Arr::wrap($attributes))->map(function ($item) {
+        $this->propagateDependencies = collect(Arr::wrap($attributes))->filter(function ($item, $key) {
+            return is_numeric($key);
+        })->map(function ($item) {
             if ($item instanceof MorphTo) {
                 return [$item->attribute, "{$item->attribute}_type"];
             }
 
             return $item instanceof Field ? $item->attribute : $item;
         })->flatten()->all();
+
+        $toPropagate = collect(Arr::wrap($attributes))->filter(function ($item, $key) {
+            return !is_numeric($key);
+        });
+
+        if ($toPropagate->count()) {
+            $this->propagated = $toPropagate->toArray();
+        }
 
         // resolve propagated when edit or create
         $this->dependsOn($this->propagateDependencies, function ($field, NovaRequest $novaRequest) {
@@ -59,7 +69,7 @@ trait NestedPropagable
      */
     public function applyPropagate(NovaRequest $request)
     {
-        $propagated = FormData::onlyFrom($request, $this->propagateDependencies)->toArray();
+        $propagated = array_merge($this->propagated ?: [], FormData::onlyFrom($request, $this->propagateDependencies)->toArray());
         $this->propagated = count($propagated) ? $propagated : null;
     }
 
