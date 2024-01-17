@@ -1,3 +1,9 @@
+## v2.1.2 v1.6.6
+
+### Bug Fix
+
+-   default children do not load all nested relations
+
 ## v2.1.1 v1.6.5
 
 ### Bug Fix
