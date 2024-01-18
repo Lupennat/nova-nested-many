@@ -25,7 +25,7 @@ class NestedDefaultViewResource extends Resource
 
         $request['editing'] = 'true';
         $request['editMode'] = 'update';
-        $request['isNestedFromDefault'] = true;
+        $request['nestedManagedByParent'] = 'true';
 
         return [
             'resources' => collect($request->nestedChildren())->mapInto($resourceClass)->map(function ($resource, $index) use ($request) {

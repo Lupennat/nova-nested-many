@@ -63,6 +63,7 @@ class NestedResponse
 
         $request['editing'] = 'true';
         $request['editMode'] = !$model->exists && !$model->isNestedDefault() ? 'create' : 'update';
+        $request['nestedManagedByParent'] = 'true';
 
         // readonly is resolved using app request on jsonserialize
         // we need to serialize for each element that way editMode is preserved
