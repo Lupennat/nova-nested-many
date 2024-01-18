@@ -145,6 +145,7 @@ class HasManyNested extends Nested
             'hasManyRelationship' => $this->hasManyRelationship,
             'relatable' => true,
             'resourceName' => $this->resourceName,
+            'resourceClass' => $this->resourceClass,
             'singularLabel' => $this->singularLabel ?? $this->resourceClass::singularLabel(),
         ], parent::jsonSerialize());
     }

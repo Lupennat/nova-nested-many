@@ -545,6 +545,12 @@ class ItemB extends Model {
 }
 ```
 
+### Nestable Objects with Recursivity
+
+Recursive `HasManyNested` relations, are available within the children collection of `NestedActions`, relations are array of `Nested Object`.
+You can generate new relation `NestedObject` with method `$this->getNewNested('relationName')`.
+
+
 ---
 
 # Credits

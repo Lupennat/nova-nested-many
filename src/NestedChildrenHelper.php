@@ -4,7 +4,7 @@ namespace Lupennat\NestedMany;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-trait NestedChildrenable
+class NestedChildrenHelper
 {
     /**
      * @var array<string,array<string,<int,array<string,mixed>>>>
@@ -35,10 +35,24 @@ trait NestedChildrenable
      *
      * @return array<int,array>
      */
-    public static function getNestedChildrenModelAttributes(NovaRequest $request, string $attribute, string $resourceClass)
+    public static function getNestedChildrenModelAttributes(NovaRequest $request, string $attribute, string $resourceClass, bool $withRelations = false)
     {
         $children = static::nestedChildrenFromRequest($request, $attribute, $resourceClass);
 
+        return static::generateNestedChildrenModelAttributes($children, $resourceClass, $withRelations);
+
+
+    }
+
+    /**
+ * Generate Nested children model and attributes from children.
+     *
+     * @param array<int,array<string,mixed>> $children
+     *
+     * @return array<int,array>
+     */
+    protected static function generateNestedChildrenModelAttributes($children, string $resourceClass, bool $withRelations)
+    {
         $nestedChildrenResources = [];
 
         $primaryKey = $resourceClass::newModel()->getKeyName();
@@ -62,9 +76,29 @@ trait NestedChildrenable
 
             $model = ($childPrimaryKeyValue ? $existingResources->where($primaryKey, $childPrimaryKeyValue)->first() : null) ?? $resourceClass::newModel();
 
+            $relations = [];
+
+            if(array_key_exists('nestedManyFields', $child)) {
+                $nestedRelations = (array) $child['nestedManyFields'];
+                if($withRelations) {
+                    foreach($nestedRelations as $attribute => $options) {
+                        $relations[$attribute] = [
+                            'resourceClass' => $options['resourceClass'],
+                            'resourceName' => $options['resourceName'],
+                            'relationShip' => $options['relationShip'],
+                            'children' => []
+                        ];
+                        $relations[$attribute]['children'] = array_key_exists($attribute, $child) ? static::generateNestedChildrenModelAttributes((array) $child[$attribute], $options['resourceClass'], true) : [];
+                    }
+                }
+                unset($child['nestedManyFields']);
+            }
+
+
             $nestedChildrenResources[] = [
                 'model' => $model,
                 'attributes' => $child,
+                'relations' => $relations
             ];
         }
 

@@ -3,6 +3,8 @@
 ### Bug Fix
 
 -   default children do not load all nested relations
+-   improve recursivity
+-   nested actions do not write on database
 
 ## v2.1.1 v1.6.5
 

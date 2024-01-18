@@ -46,8 +46,8 @@ class NestedResponse
             ->reject(function (Nested $nested) {
                 return $nested->isDeleted() && !$nested->hasSoftDelete();
             })
-            ->map(function (Nested $nested, $index) use ($resource, $request) {
-                return $this->generateResourceFromNested($nested, $resource, $request, $index);
+            ->map(function (Nested $nested) use ($resource, $request) {
+                return $this->generateResourceFromNested($nested, $resource, $request);
             })
             ->values()
             ->toArray();
@@ -55,7 +55,7 @@ class NestedResponse
         return $this;
     }
 
-    protected function generateResourceFromNested(Nested $nested, $resource, $request, $index)
+    protected function generateResourceFromNested(Nested $nested, $resource, $request)
     {
         $model = $nested->toModel();
 
@@ -68,7 +68,7 @@ class NestedResponse
         // readonly is resolved using app request on jsonserialize
         // we need to serialize for each element that way editMode is preserved
         return json_decode(json_encode(!$model->exists && !$model->isNestedDefault() ?
-        $resource->serializeForNestedCreate($request, $index) :
-        $resource->serializeForNestedUpdate($request, $index)), true);
+        $resource->serializeForNestedCreate($request) :
+        $resource->serializeForNestedUpdate($request)), true);
     }
 }

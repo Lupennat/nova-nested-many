@@ -24,14 +24,20 @@ class Nested extends Fluent
     protected Nestable $eloquentModel;
 
     /**
+     * Nested Relations keys
+     */
+    protected $nestedRelationKeys = [];
+
+    /**
      * Create a new Nested instance.
      */
-    public function __construct(Nestable $eloquentModel, $isNew = false)
+    public function __construct(Nestable $eloquentModel, $nestedRelations, $isNew = false)
     {
         $this->eloquentModel = $eloquentModel;
         $this->isNew = $isNew;
+        $this->nestedRelationKeys = array_keys($nestedRelations);
 
-        parent::__construct(array_merge($eloquentModel->attributesToArray(), [static::UIDFIELD => $eloquentModel->getNestedUid()]));
+        parent::__construct(array_merge($eloquentModel->attributesToArray(), $nestedRelations, [static::UIDFIELD => $eloquentModel->getNestedUid()]));
     }
 
     /**
@@ -127,13 +133,28 @@ class Nested extends Fluent
      */
     public function getAttributes()
     {
-        return array_filter(parent::getAttributes(), fn ($key) => $key !== static::UIDFIELD, ARRAY_FILTER_USE_KEY);
+        return array_filter(parent::getAttributes(), fn ($key) => $key !== static::UIDFIELD && !in_array($key, $this->nestedRelationKeys), ARRAY_FILTER_USE_KEY);
+    }
+
+
+    protected function getRelations()
+    {
+        return array_filter(parent::getAttributes(), fn ($key) => in_array($key, $this->nestedRelationKeys), ARRAY_FILTER_USE_KEY);
     }
 
     public function toModel()
     {
         foreach ($this->getAttributes() as $key => $value) {
             $this->eloquentModel->{$key} = $value;
+        }
+
+        foreach ($this->getRelations() as $key => $values) {
+            $this->eloquentModel->setRelation(
+                $key,
+                array_map(fn ($nested) => $nested->toModel(), array_filter($values, function ($nested) {
+                    return !$nested->isDeleted() || $nested->hasSoftDelete();
+                }))
+            );
         }
 
         return $this->eloquentModel;

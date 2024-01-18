@@ -3,12 +3,10 @@
 namespace Lupennat\NestedMany\Http\Requests;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Lupennat\NestedMany\NestedChildrenable;
+use Lupennat\NestedMany\NestedChildrenHelper;
 
 trait ChildrenResources
 {
-    use NestedChildrenable;
-
     /**
      * @var array<int,\Lupennat\NestedMany\Models\Contracts\Nestable>|null
      */
@@ -22,23 +20,31 @@ trait ChildrenResources
     public function nestedChildren(): array
     {
         if (is_null($this->nestedChildrenResources)) {
-            $this->nestedChildrenResources = [];
 
             $resourceClass = $this->resource();
 
-            $children = static::getNestedChildrenModelAttributes($this, 'nestedChildren', $resourceClass);
+            $children = $this->getProcessedNestedChildren($this, $resourceClass);
 
-            foreach ($children as $child) {
-                $this->nestedChildrenResources[] = $this->getModel($resourceClass, $child);
-            }
+            $this->nestedChildrenResources = $this->generateNestedChildren($this, $children, $resourceClass);
 
             app()->instance(NovaRequest::class, $this);
         }
 
+
         return $this->nestedChildrenResources;
     }
 
-    protected function getModel($resourceClass, $child)
+    protected function getProcessedNestedChildren($request, $resourceClass)
+    {
+        return NestedChildrenHelper::getNestedChildrenModelAttributes($request, 'nestedChildren', $resourceClass);
+    }
+
+    protected function generateNestedChildren($request, $children, $resourceClass)
+    {
+        return array_map(fn ($child) => $this->getModel($request, $resourceClass, $child), $children);
+    }
+
+    protected function getModel($request, $resourceClass, $child)
     {
         $isNestedDefault = false;
 
@@ -69,8 +75,8 @@ trait ChildrenResources
         }
 
         $childRequest = $child['model']->exists ?
-        NestedResourceUpdateOrUpdateAttachedRequest::createFrom($this) :
-        NestedResourceCreateOrAttachRequest::createFrom($this);
+        NestedResourceUpdateOrUpdateAttachedRequest::createFrom($request) :
+        NestedResourceCreateOrAttachRequest::createFrom($request);
 
         unset($childRequest['nestedChildren']);
 
@@ -81,7 +87,7 @@ trait ChildrenResources
         $childRequest['editing'] = 'true';
         $childRequest['editMode'] = $child['model']->exists ? 'update' : 'create';
 
-        [$model] = $resourceClass::{$child['model']->exists ? 'fillForUpdate' : 'fill'}(
+        [$model] = $resourceClass::{$child['model']->exists ? 'nestedFillForUpdate' : 'nestedFill'}(
             $childRequest,
             $child['model']
         );

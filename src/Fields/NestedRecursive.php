@@ -47,6 +47,46 @@ trait NestedRecursive
         $this->resources = $resources;
     }
 
+    /**
+     * Generate resources from parent.
+     */
+    public function generateResourcesFromResource(NovaRequest $request, $resource): void
+    {
+
+        $resources = [];
+
+        foreach($resource->getRelations() as $name => $relatedResources) {
+            $oldResourceName = $request->route('resource');
+            $request->route()->setParameter('resource', $this->resourceName);
+
+            $newRequest = NovaRequest::createFrom($request);
+
+            $updateRequest = NestedResourceUpdateOrUpdateAttachedRequest::createFrom($newRequest->replace([
+                'viaResource' => $oldResourceName,
+                'viaResourceId' => $resource->getKey() ?? null,
+                'viaRelationship' => $this->attribute,
+            ]));
+
+            $resourceClass = $updateRequest->resource();
+
+            $resources = collect($relatedResources)->mapInto($resourceClass)->map(function ($resource) use ($updateRequest) {
+                $updateRequest['editing'] = 'true';
+                $updateRequest['editMode'] = !$resource->resource->exists && !$resource->resource->isNestedDefault() ? 'create' : 'update';
+                $updateRequest['nestedManagedByParent'] = 'true';
+
+                // readonly is resolved using app request on jsonserialize
+                // we need to serialize for each element that way editMode is preserved
+                return json_decode(json_encode(!$resource->resource->exists && !$resource->resource->isNestedDefault() ?
+                $resource->serializeForNestedCreate($updateRequest) :
+                $resource->serializeForNestedUpdate($updateRequest)), true);
+            })->toArray();
+
+            $request->route()->setParameter('resource', $oldResourceName);
+        }
+
+        $this->resources = $resources;
+    }
+
     public function getValidationAttributeNamesFromParent(NovaRequest $request, string $resourceName, string $attribute, int $index): array
     {
         $validationNames = [];

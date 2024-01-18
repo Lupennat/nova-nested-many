@@ -11,6 +11,7 @@ trait HasNested
     protected $nestedIsDefault = false;
     protected $nestedIsActive = false;
     protected $nestedUid = null;
+    protected $nestedRelations = [];
 
     public function hasNestedSoftDelete(): bool
     {
@@ -45,6 +46,13 @@ trait HasNested
         return $this;
     }
 
+    public function nestedSetRelations($relations = []): self
+    {
+        $this->nestedRelations = $relations;
+
+        return $this;
+    }
+
     public function getNestedUid(): string
     {
         if (!$this->nestedUid) {
@@ -71,6 +79,11 @@ trait HasNested
 
     public function getNestedItem(): Nested
     {
-        return new Nested($this, $this->nestedUid);
+        return new Nested($this, array_reduce(array_keys($this->nestedRelations), function ($carry, $key) {
+            $carry[$key] = array_map(function ($model) {
+                return $model->getNestedItem();
+            }, $this->nestedRelations[$key]);
+            return $carry;
+        }, []), $this->nestedUid);
     }
 }

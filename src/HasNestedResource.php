@@ -23,6 +23,61 @@ trait HasNestedResource
     use Authorizable;
 
     /**
+     * Fill a new model instance using the given request.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return array{\Illuminate\Database\Eloquent\Model, array<int, callable>}
+     */
+    public static function nestedFill(NovaRequest $request, $model)
+    {
+        return static::nestedFillFields(
+            $request,
+            $model,
+            (new static($model))
+                ->creationFields($request)
+                ->applyDependsOn($request)
+                ->withoutReadonly($request)
+                ->withoutUnfillable()
+        );
+    }
+
+    /**
+     * Fill a new model instance using the given request.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return array{\Illuminate\Database\Eloquent\Model, array<int, callable>}
+     */
+    public static function nestedFillForUpdate(NovaRequest $request, $model)
+    {
+        return static::nestedFillFields(
+            $request,
+            $model,
+            (new static($model))
+                ->updateFields($request)
+                ->applyDependsOn($request)
+                ->withoutReadonly($request)
+                ->withoutUnfillable()
+        );
+    }
+
+    /**
+     * Fill the given fields for the model.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \Illuminate\Support\Collection<int, \Laravel\Nova\Fields\Field>  $fields
+     * @return array{\Illuminate\Database\Eloquent\Model, array<int, callable>}
+     */
+    protected static function nestedFillFields(NovaRequest $request, $model, $fields)
+    {
+        return [$model, $fields->reject(fn ($field) => $field instanceof HasManyNested)->map->fill($request, $model)->filter(function ($callback) {
+            return is_callable($callback);
+        })->values()->all()];
+    }
+
+    /**
      * Get the actions available on the entity.
      *
      * @return array<\Lupennat\NestedMany\Actions\NestedAction>
@@ -251,7 +306,7 @@ trait HasNestedResource
      *
      * @return array<string, mixed>
      */
-    public function serializeForNestedUpdate(NovaRequest $request, $index)
+    public function serializeForNestedUpdate(NovaRequest $request, $index = null)
     {
         request()->setMethod('GET');
 
@@ -281,7 +336,7 @@ trait HasNestedResource
      *
      * @return array<string, mixed>
      */
-    public function serializeForNestedCreate(NovaRequest $request, $index)
+    public function serializeForNestedCreate(NovaRequest $request, $index = null)
     {
         request()->setMethod('GET');
 
@@ -367,13 +422,17 @@ trait HasNestedResource
      *
      * @return \Laravel\Nova\Fields\FieldCollection<int, \Laravel\Nova\Fields\Field>
      */
-    protected function adaptFieldForNestedMany($fields, NovaRequest $request, $index, $checkCanUpdate = true)
+    protected function adaptFieldForNestedMany($fields, NovaRequest $request, $index = null, $checkCanUpdate = true)
     {
         $fields = $this->rejectNestedRelatedField($fields, $request);
 
         return $fields->map(function ($field) use ($checkCanUpdate, $request, $index) {
             if ($field instanceof HasManyNested) {
-                $field->generateResourcesFromParent($request, $index);
+                if (is_null($index)) {
+                    $field->generateResourcesFromResource($request, $this->resource);
+                } else {
+                    $field->generateResourcesFromParent($request, $index);
+                }
             } else {
                 if (($checkCanUpdate && !$this->authorizedToUpdateNested($request)) || $this->resource->isNestedSoftDeleted()) {
                     return $field->readonly(true);
