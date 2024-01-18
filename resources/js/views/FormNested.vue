@@ -394,7 +394,7 @@
             needsReload() {
                 return JSON.stringify({
                     defaultChildren: this.defaultChildren,
-                    propagated: this.propagated,
+                    propagated: this.watchablePropagated,
                     hiddenFields: this.hiddenFields,
                 });
             },

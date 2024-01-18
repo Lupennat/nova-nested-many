@@ -137,6 +137,15 @@ export default {
             return this.field.propagated;
         },
 
+        watchablePropagated() {
+            return Object.keys(this.propagated ?? {})
+                .filter(key => !key.startsWith('resource:'))
+                .reduce((carry, key) => {
+                    carry[key] = this.propagated[key];
+                    return carry;
+                }, {});
+        },
+
         nestedPropagated() {
             return Object.keys(this.propagated ?? {}).reduce((carry, key) => {
                 carry[`nestedPropagated[${key}]`] = this.propagated[key];

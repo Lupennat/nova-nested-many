@@ -10,7 +10,6 @@ use Illuminate\Support\Traits\Macroable;
 use Laravel\Nova\AuthorizedToSee;
 use Laravel\Nova\Exceptions\MissingActionHandlerException;
 use Laravel\Nova\Fields\FieldCollection;
-use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Makeable;
 use Laravel\Nova\Metable;
@@ -175,7 +174,7 @@ abstract class NestedBaseAction implements \JsonSerializable
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function validateFields(ActionRequest $request)
+    public function validateFields(NestedActionRequest $request)
     {
         $fields = FieldCollection::make($this->fields($request))
             ->authorized($request)
@@ -385,14 +384,14 @@ abstract class NestedBaseAction implements \JsonSerializable
     /**
      * Get New Model Callback.
      */
-    public function getNewNested(): Nested
+    public function getNewNested(string $relationName = ''): Nested
     {
         /**
          * @var \Lupennat\NestedMany\Http\Requests\NestedActionRequest
          */
         $request = app(NovaRequest::class);
 
-        return $request->newNested();
+        return $request->newNested($relationName);
     }
 
     /**

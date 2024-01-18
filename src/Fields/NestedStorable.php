@@ -13,12 +13,10 @@ use Laravel\Nova\Http\Requests\DeleteResourceRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Http\Requests\UpdateResourceRequest;
 use Laravel\Nova\Util;
-use Lupennat\NestedMany\NestedChildrenable;
+use Lupennat\NestedMany\NestedChildrenHelper;
 
 trait NestedStorable
 {
-    use NestedChildrenable;
-
     /**
      * Before fill Callback.
      *
@@ -73,7 +71,7 @@ trait NestedStorable
 
         $attributeNames = parent::getValidationAttributeNames($request);
 
-        $childrenCount = static::countNestedChildren($request, $this->attribute, $this->resourceClass);
+        $childrenCount = NestedChildrenHelper::countNestedChildren($request, $this->attribute, $this->resourceClass);
 
         if ($childrenCount) {
             $attributeNames = array_merge($attributeNames, $resource
@@ -130,7 +128,7 @@ trait NestedStorable
 
         $resourceClass = $this->resourceClass;
 
-        $children = static::getNestedChildrenModelAttributes($request, $this->attribute, $resourceClass);
+        $children = NestedChildrenHelper::getNestedChildrenModelAttributes($request, $this->attribute, $resourceClass);
 
         foreach ($children as $index => $child) {
             $resource = new $resourceClass($child['model']);
@@ -270,7 +268,7 @@ trait NestedStorable
 
             $resourceClass = $this->resourceClass;
 
-            $children = static::getNestedChildrenModelAttributes($request, $this->attribute, $resourceClass);
+            $children = NestedChildrenHelper::getNestedChildrenModelAttributes($request, $this->attribute, $resourceClass);
 
             $keyName = $this->resourceClass::newModel()->getKeyName();
 

@@ -1,27 +1,30 @@
 <template>
     <div class="divide-y" :class="[isSoftDeleted ? 'bg-yellow-100 divide-gray-800' : 'divide-gray-100']">
-        <component
-            v-for="(field, fieldIndex) in resource.fields"
-            v-show="!isHidden(field)"
-            mode="form"
-            :is="resolveComponentName(field)"
-            :key="`fields-${this.isEditable ? 'edit-' : ''}${uniqueResourceKey(resource)}-${index}-${fieldIndex}`"
-            :index="fieldIndex"
-            :errors="errors"
-            :resource-name="resourceName"
-            :resource-id="resourceId"
-            :field="field"
-            :resource="resource"
-            :via-resource="viaResource"
-            :via-resource-id="viaResourceId"
-            :via-relationship="viaRelationship"
-            :form-unique-id="formUniqueId"
-            :show-help-text="showHelpText"
-            @field-changed="$emit('field-changed')"
-            @file-deleted="$emit('file-deleted')"
-            @file-upload-started="$emit('file-upload-started')"
-            @file-upload-finished="$emit('file-upload-finished')"
-        />
+        <div class="relative" :style="isSoftDeleted ? 'filter: blur(0.75px)' : ''">
+            <div class="inset-0 absolute z-10" style="opacity: 0" v-show="isSoftDeleted"></div>
+            <component
+                v-for="(field, fieldIndex) in resource.fields"
+                v-show="!isHidden(field)"
+                mode="form"
+                :is="resolveComponentName(field)"
+                :key="`fields-${this.isEditable ? 'edit-' : ''}${uniqueResourceKey(resource)}-${index}-${fieldIndex}`"
+                :index="fieldIndex"
+                :errors="errors"
+                :resource-name="resourceName"
+                :resource-id="resourceId"
+                :field="field"
+                :resource="resource"
+                :via-resource="viaResource"
+                :via-resource-id="viaResourceId"
+                :via-relationship="viaRelationship"
+                :form-unique-id="formUniqueId"
+                :show-help-text="showHelpText"
+                @field-changed="$emit('field-changed')"
+                @file-deleted="$emit('file-deleted')"
+                @file-upload-started="$emit('file-upload-started')"
+                @file-upload-finished="$emit('file-upload-finished')"
+            />
+        </div>
         <div class="relative flex justify-end space-x-2 p-2" v-show="hasActionButtons">
             <InlineNestedActionDropdown
                 :actions="availableActions"

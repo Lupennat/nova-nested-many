@@ -75,13 +75,27 @@ export default {
                         resourceForm.append('isNestedSoftDeleted', resource.isNestedSoftDeleted ? 1 : 0);
                         resourceForm.append('nestedUid', resource.nestedUid);
 
+                        const nestedManyFields = {};
+
                         _.each(resource.fields, field => {
                             if (field.component === 'has-many-nested-field') {
+                                nestedManyFields[field.attribute] = {
+                                    resourceClass: field.resourceClass,
+                                    resourceName: field.resourceName,
+                                    relationShip: field.hasManyRelationship,
+                                };
                                 field.fill(resourceForm, withDeleted);
                             } else {
                                 field.fill(resourceForm);
                             }
                         });
+
+                        for (const field in nestedManyFields) {
+                            const attributes = nestedManyFields[field];
+                            for (const key in attributes) {
+                                resourceForm.append(`nestedManyFields[${field}][${key}]`, attributes[key]);
+                            }
+                        }
 
                         formIndex++;
                     });
