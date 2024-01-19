@@ -57,8 +57,8 @@
             },
         },
         methods: {
-            fill(formData, withDelete = false) {
-                this.$refs.nestedForm.fill(formData, withDelete);
+            fill(formData, withDelete = false, nestedValidationKeyPrefix = '') {
+                this.$refs.nestedForm.fill(formData, withDelete, nestedValidationKeyPrefix);
             },
         },
     };

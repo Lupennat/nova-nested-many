@@ -11,8 +11,9 @@
     5. [Hooks](#hooks)
 5. [Nestable Resource](#nestable-resource)
     1. [Nestable Title](#nestable-title)
-    2. [Nestable Authorization](#nestable-authorization)
-    3. [Nestable Actions](#nestable-actions)
+    2. [Nestable Custom Validation](#nestable-custom-validation)
+    3. [Nestable Authorization](#nestable-authorization)
+    4. [Nestable Actions](#nestable-actions)
         1. [Nestable Basic Actions](#nestable-basic-actions)
         2. [Nestable Soft Delete Action](#Nestable-soft-delete-action)
         3. [Nestable Custom Actions](#nestable-custom-actions)
@@ -270,6 +271,41 @@ class User extends Resource
     }
 
 }
+```
+
+### Nestable Custom Validation
+
+Field validation on nestable resources are automatically managed by `NestedMany`, for each validation error the attribute key is reprocessed and mapped to show feedback to the user in the specific field of the resource generating the error.
+
+When validation is done by adding errors in the validator (e.g., using the afterValidation method), HasManyNested is unable to intercept and remap these errors.
+On related resource the correct prefix to prepend to the error attribute can be retrieved through `getNestedValidationKeyPrefix` method on Request.
+
+```php
+namespace App\Nova;
+
+class User extends Resource
+{
+    /**
+     * Handle any post-validation processing.
+     *
+     * @param \Illuminate\Validation\Validator $validator
+     *
+     * @return void
+     */
+    protected static function afterValidation(NovaRequest $request, $validator)
+    {
+        // do logic to detect error
+        $isDisposableEmail = true;
+        if($isDisposableEmail) {
+            $validator
+                ->errors()
+                ->add(
+                    $request->getNestedValidationKeyPrefix() . 'email',
+                    'Temporary emails are forbidden.'
+                );
+        }
+    }
+
 ```
 
 ### Nestable Authorization
@@ -549,7 +585,6 @@ class ItemB extends Model {
 
 Recursive `HasManyNested` relations, are available within the children collection of `NestedActions`, relations are array of `Nested Object`.
 You can generate new relation `NestedObject` with method `$this->getNewNested('relationName')`.
-
 
 ---
 

@@ -30,8 +30,8 @@ class NestedManyServiceProvider extends ServiceProvider
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('nested-many-v2.1.2', __DIR__ . '/../dist/js/nested-many.js');
-            Nova::style('nested-many-v2.1.2', __DIR__ . '/../dist/css/nested-many.css');
+            Nova::script('nested-many-v2.2.0', __DIR__ . '/../dist/js/nested-many.js');
+            Nova::style('nested-many-v2.2.0', __DIR__ . '/../dist/css/nested-many.css');
         });
 
         NovaRequest::macro('isNested', function () {
@@ -40,6 +40,10 @@ class NestedManyServiceProvider extends ServiceProvider
 
         NovaRequest::macro('getNestedPropagated', function ($key) {
             return \Illuminate\Support\Arr::get($this->nestedPropagated ?? [], $key);
+        });
+
+        NovaRequest::macro('getNestedValidationKeyPrefix', function () {
+            return $this->nestedValidationKeyPrefix ?? '';
         });
     }
 
