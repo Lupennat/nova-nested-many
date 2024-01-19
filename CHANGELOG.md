@@ -1,3 +1,9 @@
+## v2.2.1 v1.7.1
+
+### New
+
+-   fix nestedValidationKeyPrefix
+
 ## v2.2.0 v1.7.0
 
 ### New
