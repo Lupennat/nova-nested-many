@@ -215,13 +215,14 @@
                 }
             },
 
-            fill(formData, withDelete = false) {
+            fill(formData, withDelete = false, nestedValidationKeyPrefix = '') {
                 this.generateResourcesFormData(
                     formData,
                     this.field.attribute,
                     this.decoratedResources,
                     this.primaryKeyName,
                     withDelete,
+                    nestedValidationKeyPrefix,
                 );
             },
 

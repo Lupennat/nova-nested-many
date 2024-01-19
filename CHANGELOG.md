@@ -1,3 +1,9 @@
+## v2.2.0 v1.7.0
+
+### New
+
+-   exposed method `getNestedValidationKeyPrefix` on novarequest
+
 ## v2.1.2 v1.6.6
 
 ### Bug Fix

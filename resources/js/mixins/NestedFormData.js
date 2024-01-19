@@ -57,7 +57,14 @@ class NestedFormData {
 
 export default {
     methods: {
-        generateResourcesFormData(formData, attribute, resources, primaryKeyName, withDeleted = false) {
+        generateResourcesFormData(
+            formData,
+            attribute,
+            resources,
+            primaryKeyName,
+            withDeleted = false,
+            nestedValidationKeyPrefix = '',
+        ) {
             for (const key in this.nestedPropagated) {
                 formData.append(key, this.nestedPropagated[key]);
             }
@@ -69,11 +76,14 @@ export default {
                             return;
                         }
 
+                        nestedValidationKeyPrefix = `${nestedValidationKeyPrefix}${this.field.validationKey}.${index}.`;
+
                         resourceForm.append(primaryKeyName, resource.primaryKey ?? '');
                         resourceForm.append('isNestedDefault', resource.isNestedDefault ? 1 : 0);
                         resourceForm.append('isNestedActive', resource.isNestedActive ? 1 : 0);
                         resourceForm.append('isNestedSoftDeleted', resource.isNestedSoftDeleted ? 1 : 0);
                         resourceForm.append('nestedUid', resource.nestedUid);
+                        resourceForm.append('nestedValidationKeyPrefix', nestedValidationKeyPrefix);
 
                         const nestedManyFields = {};
 
@@ -84,7 +94,7 @@ export default {
                                     resourceName: field.resourceName,
                                     relationShip: field.hasManyRelationship,
                                 };
-                                field.fill(resourceForm, withDeleted);
+                                field.fill(resourceForm, withDeleted, nestedValidationKeyPrefix);
                             } else {
                                 field.fill(resourceForm);
                             }
