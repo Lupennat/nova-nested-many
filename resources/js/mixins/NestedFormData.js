@@ -76,14 +76,14 @@ export default {
                             return;
                         }
 
-                        nestedValidationKeyPrefix = `${nestedValidationKeyPrefix}${this.field.validationKey}.${index}.`;
+                        const currentNestedValidationKeyPrefix = `${nestedValidationKeyPrefix}${this.field.validationKey}.${index}.`;
 
                         resourceForm.append(primaryKeyName, resource.primaryKey ?? '');
                         resourceForm.append('isNestedDefault', resource.isNestedDefault ? 1 : 0);
                         resourceForm.append('isNestedActive', resource.isNestedActive ? 1 : 0);
                         resourceForm.append('isNestedSoftDeleted', resource.isNestedSoftDeleted ? 1 : 0);
                         resourceForm.append('nestedUid', resource.nestedUid);
-                        resourceForm.append('nestedValidationKeyPrefix', nestedValidationKeyPrefix);
+                        resourceForm.append('nestedValidationKeyPrefix', currentNestedValidationKeyPrefix);
 
                         const nestedManyFields = {};
 
@@ -94,7 +94,7 @@ export default {
                                     resourceName: field.resourceName,
                                     relationShip: field.hasManyRelationship,
                                 };
-                                field.fill(resourceForm, withDeleted, nestedValidationKeyPrefix);
+                                field.fill(resourceForm, withDeleted, currentNestedValidationKeyPrefix);
                             } else {
                                 field.fill(resourceForm);
                             }
