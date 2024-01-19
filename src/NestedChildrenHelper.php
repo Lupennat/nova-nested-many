@@ -7,25 +7,13 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class NestedChildrenHelper
 {
     /**
-     * @var array<string,array<string,<int,array<string,mixed>>>>
-     */
-    private static $nestedChildrenFromRequest = [];
-
-    /**
      * Get nested children from request.
      *
      * @return array<int,array<string,mixed>>
      */
     private static function nestedChildrenFromRequest(NovaRequest $request, string $attribute, string $resourceClass): array
     {
-        if (!array_key_exists($resourceClass, static::$nestedChildrenFromRequest)) {
-            static::$nestedChildrenFromRequest[$resourceClass] = [];
-            if (!array_key_exists($attribute, static::$nestedChildrenFromRequest[$resourceClass])) {
-                static::$nestedChildrenFromRequest[$resourceClass][$attribute] = is_array($request->{$attribute}) ? $request->{$attribute} : [];
-            }
-        }
-
-        return static::$nestedChildrenFromRequest[$resourceClass][$attribute];
+        return is_array($request->{$attribute}) ? $request->{$attribute} : [];
     }
 
     /**
