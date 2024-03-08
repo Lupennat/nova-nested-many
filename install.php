@@ -1,6 +1,6 @@
 <?php
 
-const MINIMUMVERSION = '4.29.6';
+const MINIMUMVERSION = '4.32.11';
 
 copy(__DIR__ . '/composer.json', __DIR__ . '/composer.json.original');
 
@@ -9,7 +9,7 @@ $content['require']['laravel/nova'] = MINIMUMVERSION;
 
 file_put_contents(__DIR__ . '/composer.json', json_encode($content, JSON_PRETTY_PRINT));
 
-shell_exec('composer install');
+shell_exec('composer install --ignore-platform-req=ext-zip');
 
 copy(__DIR__ . '/composer.json.original', __DIR__ . '/composer.json');
 

@@ -13,11 +13,11 @@
     },
     "devDependencies": {
         "@vue/babel-plugin-jsx": "^1.1.0",
-        "@vue/compiler-sfc": "^3.2.22",
+        "@vue/compiler-sfc": "^3.2.29",
         "form-backend-validation": "^2.3.3",
         "laravel-mix": "^6.0.41",
         "lodash": "^4.17.21",
-        "postcss": "^8.3.11",
+        "postcss": "^8.4.31",
         "prettier": "^3.1.0",
         "vue-loader": "^16.8.3"
     },

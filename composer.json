@@ -14,7 +14,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4|^8.0",
-        "laravel/nova": ">=4.29.6 <=4.32.11"
+        "laravel/nova": ">=4.32.12"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.16"
@@ -42,13 +42,16 @@
         "url": "https://nova.laravel.com"
     }
     ],
+    "archive": {
+        "exclude": ["/.devcontainer", "/.github"]
+    },
     "scripts": {
         "php-cs-fixer": "vendor/bin/php-cs-fixer fix",
         "build": [
             "rm -rf .php-cs-fixer.cache",
-            "composer php-cs-fixer src",
             "rm -rf composer.lock",
             "php install.php",
+            "composer php-cs-fixer src",
             "npm ci",
             "npm run format",
             "npm run prod"
