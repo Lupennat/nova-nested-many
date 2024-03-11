@@ -1,6 +1,6 @@
 <?php
 
-const MINIMUMVERSION = '4.32.16';
+const MINIMUMVERSION = '4.29.6';
 
 copy(__DIR__ . '/composer.json', __DIR__ . '/composer.json.original');
 
