@@ -1,3 +1,9 @@
+## v2.2.2
+
+### New
+
+-   fix action selector
+
 ## v2.2.1 v1.7.1
 
 ### New
