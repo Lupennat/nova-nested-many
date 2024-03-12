@@ -38,7 +38,6 @@ composer require lupennat/nova-nested-many:^2.0
 | -------- | ------- |
 | <4.29.5  | 1.x     |
 | >4.29.6  | 2.x     |
-| >4.32.11 | 3.x     |
 
 ## Usage
 
