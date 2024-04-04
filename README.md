@@ -34,10 +34,10 @@
 composer require lupennat/nova-nested-many:^2.0
 ```
 
-| NOVA    | PACKAGE |
-| ------- | ------- |
-| <4.29.5 | 1.x     |
-| >4.29.6 | 2.x     |
+| NOVA     | PACKAGE |
+| -------- | ------- |
+| <4.29.5  | 1.x     |
+| >4.29.6  | 2.x     |
 
 ## Usage
 

@@ -147,7 +147,7 @@
          */
         async mounted() {
             this.initialLoading = true;
-            await this.initializeComponent();
+            await this.initializeComponent(!this.isManagedByParent);
             this.initialLoading = false;
             this.$watch('needsReload', function (val, oldVal) {
                 if (val !== oldVal) {
@@ -191,7 +191,7 @@
                 this.$emit('file-upload-finished');
             },
 
-            async initializeComponent() {
+            async initializeComponent(loadResources = true) {
                 this.loading = true;
                 this.disableFormUpdate();
 
@@ -199,7 +199,11 @@
                     await Promise.all([
                         this.getActions(),
                         this.getDefaultResources(),
-                        this.initialLoading ? this.getResources() : this.getUpdatedResources(),
+                        loadResources
+                            ? this.initialLoading
+                                ? this.getResources()
+                                : this.getUpdatedResources()
+                            : Promise.resolve(),
                     ]);
 
                     if (this.isCreatingParent && (this.decoratedResources.length === 0 || this.overwriteWithDefault)) {
@@ -227,10 +231,6 @@
             },
 
             async getResources() {
-                if (this.isCreatingParent) {
-                    return;
-                }
-
                 this.decoratedResources = [];
 
                 try {
@@ -386,6 +386,10 @@
 
             isCreatingParent() {
                 return this.field.mode === 'create';
+            },
+
+            isManagedByParent() {
+                return !!this.field.managedByParent || this.isCreatingParent;
             },
 
             isVisible() {
