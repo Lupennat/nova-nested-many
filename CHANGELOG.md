@@ -1,3 +1,9 @@
+## v2.2.3 v1.6.7
+
+### Bug Fix
+
+-   default children when creating resource
+
 ## v2.2.2
 
 ### New

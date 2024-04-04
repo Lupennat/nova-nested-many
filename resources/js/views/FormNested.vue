@@ -206,7 +206,7 @@
                             : Promise.resolve(),
                     ]);
 
-                    if (!loadResources && (this.decoratedResources.length === 0 || this.overwriteWithDefault)) {
+                    if (this.isCreatingParent && (this.decoratedResources.length === 0 || this.overwriteWithDefault)) {
                         this.decoratedResources = this.defaultResources.slice();
                     }
 
