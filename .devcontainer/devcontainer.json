@@ -6,7 +6,7 @@
 	"image": "mcr.microsoft.com/devcontainers/php:1-8.2-bullseye",
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
-		"ghcr.io/devcontainers/features/node:1": {},
+		"ghcr.io/devcontainers/features/node:2": {},
 		"ghcr.io/gickis/devcontainer-features/gomplate:1": {}
 	},
 	"containerEnv": {
